@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <!-- PACE Progress Bar START -->
+  
+    
+<script src="https://raw.githubusercontent.com/HubSpot/pace/v1.0.2/pace.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://github.com/HubSpot/pace/raw/master/themes/orange/pace-theme-flash.css">
+
+  
+  
+
+  <!-- PACE Progress Bar START -->
+
+  
+  <title>flink-glossary | PLAYAROUND</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  
+  
+  
+  <meta name="description" content="true">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flink-glossary">
+<meta property="og:url" content="http://playaround88.github.io/2021/09/12/java/flink/index.html">
+<meta property="og:site_name" content="PLAYAROUND">
+<meta property="og:description" content="true">
+<meta property="og:locale">
+<meta property="og:image" content="http://playaround88.github.io/img/zfb.jpg">
+<meta property="article:published_time" content="2021-09-12T08:46:40.000Z">
+<meta property="article:modified_time" content="2021-09-15T04:12:23.374Z">
+<meta property="article:author" content="wutb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://playaround88.github.io/img/zfb.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="PLAYAROUND" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="https://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" >
+  <link rel="stylesheet" href="/css/hiero.css" >
+  <link rel="stylesheet" href="/css/glyphs.css" >
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+  <!-- Custom CSS -->
+  
+<link rel="stylesheet" href="/css/my.css">
+
+  <!-- Google Adsense -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+      (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-0123456789ABCDEF",
+          enable_page_level_ads: true
+      });
+  </script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<script>
+var themeMenus = {};
+
+  themeMenus["/"] = "Home"; 
+
+  themeMenus["/archives"] = "Archives"; 
+
+  themeMenus["/categories"] = "Categories"; 
+
+  themeMenus["/tags"] = "Tags"; 
+
+  themeMenus["/about"] = "About"; 
+
+</script>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  <header id="allheader" class="site-header" role="banner">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="PLAYAROUND" rel="home"> PLAYAROUND </a>
+            
+          </h1>
+
+          
+            <div class="site-description">Put into practice, u are changing without realizing it! </div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+            <div class="clearfix sf-menu">
+
+              <ul id="main-nav" class="nmenu sf-js-enabled">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/categories">Categories</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="originBgDiv" style="background: #fff; width: 100%;">
+
+      <div style="max-height:600px; overflow: hidden;  display: flex; display: -webkit-flex; align-items: center;">
+        <img id="originBg" width="100%" alt="" src="">
+      </div>
+
+  </div>
+
+  <script>
+  function setAboutIMG(){
+      var imgUrls = "css/images/pose.jpg,https://source.unsplash.com/collection/954550/1920x1080".split(",");
+      var random = Math.floor((Math.random() * imgUrls.length ));
+      if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+        document.getElementById("originBg").src=imgUrls[random];
+      } else {
+        document.getElementById("originBg").src='/' + imgUrls[random];
+      }
+  }
+  bgDiv=document.getElementById("originBgDiv");
+  if(location.pathname.match('about')){
+    setAboutIMG();
+    bgDiv.style.display='block';
+  }else{
+    bgDiv.style.display='none';
+  }
+  </script>
+
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-java/flink" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/zfb.jpg" rel="gallery_cktkz97eo0007gttcga9e6j5w">
+        <img src="/img/zfb.jpg" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      flink-glossary
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	Posted on <a href="/2021/09/12/java/flink/" class="article-date">
+	  <time datetime="2021-09-12T08:46:40.000Z" itemprop="datePublished">September 12, 2021</time>
+	</a>
+
+      
+	<span id="busuanzi_container_page_pv">
+	  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+	</span>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h1><p><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.13/docs/concepts/glossary/">flink glossary</a>是官网上的flink概念词汇解释，里面有文档中大量名称名词的汇总解释。<br>文档已经很全面，当然本文不只是一个翻译。本文会借助一个例子，并通过静态代码、运行态、物理集群三条主线串讲flink的主要词汇。看完本文，你将能看懂flink作业的Logical Graph、Job Graph和Slot Graph；同时，就能全面的理解“flink跑起来是什么样子”，这非常有助于新人学习flink，再去看flink的其他文档，将会更好理解。</p>
+<h1 id="2-静态代码维度"><a href="#2-静态代码维度" class="headerlink" title="2. 静态代码维度"></a>2. 静态代码维度</h1><p><img src="/img/logical-graph.png" alt="logical graph"></p>
+<p>上图是一个逻辑拓扑图，它是一个有向图，基本上和编写的代码是一一对应的，是我们处理业务数据的整体处理步骤逻辑。<br>下面我们就从代码的维度，以程序的入口为切入点，详细的介绍相关概念。那么第一个就是flink应用。</p>
+<h2 id="Flink-Application（flink应用）"><a href="#Flink-Application（flink应用）" class="headerlink" title="Flink Application（flink应用）"></a>Flink Application（flink应用）</h2><p>一个Flink Application是一个提交了<strong>一个</strong>或者<strong>多个</strong>Flink作业(job)的Java应用程序。<br>这里着重注意，我们的一个flink应用是可以提交多个job的，也就是可以提交多个逻辑拓扑。</p>
+<h2 id="Flink-Job（flink作业）"><a href="#Flink-Job（flink作业）" class="headerlink" title="Flink Job（flink作业）"></a>Flink Job（flink作业）</h2><p>Flink Job是一个数据处理逻辑拓扑(logical graph)的运行时形态。通常我们代码中调用env.execute()函数就会创建一个job。<br>job不属于静态代码维度，这里主要是为了衔接各个概念。</p>
+<h2 id="logical-graph-逻辑拓扑"><a href="#logical-graph-逻辑拓扑" class="headerlink" title="logical graph(逻辑拓扑)"></a>logical graph(逻辑拓扑)</h2><p>logical graph是一个由算子(Operator)为节点，数据流向为边组成的有向图。有时也会被称为dataflow graph。上面说了基本上和编写的代码是一一对应的，我们的代码就是定义一个个的算子和上下游关系并行度等。</p>
+<h2 id="Operator-算子"><a href="#Operator-算子" class="headerlink" title="Operator(算子)"></a>Operator(算子)</h2><p>算子是逻辑拓扑的节点，一个算子一般只执行一个单一的职能，通常有一个Function的实现。Source和Sink是特殊的算子，用来提取和吐出数据。</p>
+<h2 id="Function-函数"><a href="#Function-函数" class="headerlink" title="Function(函数)"></a>Function(函数)</h2><p>函数是有开发人员实现的封装了具体应用逻辑的程序代码。大部分的函数都是由不同类型算子包装的。</p>
+<h2 id="Operator-Chain-算子链"><a href="#Operator-Chain-算子链" class="headerlink" title="Operator Chain(算子链)"></a>Operator Chain(算子链)</h2><p>算子链，是有两个或者多个不包含重分区(without repartitioning)算子组成。在同一个算子链中的算子之间可以直接传递数据，而不需要序列化和网络传输。</p>
+<blockquote>
+<p>上面这几个词汇基本上就是我们编写代码的主要内容，我这里姑且都称为静态词汇，突出它们都是可以从我们代码描述中可以直接看的到的内容。</p>
+</blockquote>
+<h1 id="3-运行态维度"><a href="#3-运行态维度" class="headerlink" title="3. 运行态维度"></a>3. 运行态维度</h1><p><img src="/img/physical-graph.png" alt="physical graph"><br>上图是一个Job Graph的图，也称为Physical Graph. 可以认为是flink应用程序运行时的形态。</p>
+<h2 id="Physical-Graph-物理拓扑"><a href="#Physical-Graph-物理拓扑" class="headerlink" title="Physical Graph(物理拓扑)"></a>Physical Graph(物理拓扑)</h2><p>一个物理拓扑是对应逻辑拓扑在分布式运行时运行后转换结果。节点是Task(任务)，边表明了数据流的流入、流出关系。</p>
+<h2 id="Task-任务"><a href="#Task-任务" class="headerlink" title="Task(任务)"></a>Task(任务)</h2><p>Task是物理拓扑的节点，是flink运行时执行的基本单元。具体来说，Task封装的是算子或者算子链的一个parallel instance(并行实例)。这里也能说明，为什么上面介绍算子链的时候说，算子链里面的算子直接传递数据时，不需要序列化和网络传输，因为他们运行时肯定在同一个task manager的同一个线程中。</p>
+<h2 id="Sub-Task-子任务"><a href="#Sub-Task-子任务" class="headerlink" title="Sub Task(子任务)"></a>Sub Task(子任务)</h2><p>子任务是任务的一个处理特定分区数据的并行实例。这里仅仅是用来强调任务的并行性，只是描述性用语。</p>
+<blockquote>
+<p>上面的三个概念就是物理拓扑的主要组成部分，大家可以照着这些概念再看一下上面的物理拓扑图，特别是和静态层面概念对应一下，就能更好的理解代码。</p>
+</blockquote>
+<h1 id="4-物理集群维度"><a href="#4-物理集群维度" class="headerlink" title="4. 物理集群维度"></a>4. 物理集群维度</h1><p><img src="/img/flink.png" alt="flink"><br><img src="/img/slot-graph.png" alt="slot-graph"></p>
+<p>上图1是flink集群的架构图，标明了集群的物理组成架构。<br>图2是本文例子的task slot graph(任务槽分布图)。<br>下面，我们对着flink架构图来阐述flink集群的主要词汇概念。</p>
+<h2 id="JobManager-作业管理器"><a href="#JobManager-作业管理器" class="headerlink" title="JobManager(作业管理器)"></a>JobManager(作业管理器)</h2><p>作业管理器是Flink集群的协调器，用来调度资源、任务和状态管理等。Jobmanager主要有三个独立的组件组成：Flink Resource Manager(资源管理器), Flink Dispatcher(分发器) 和Flink JobMaster(每个作业一个)。 </p>
+<h2 id="Flink-JobMaster"><a href="#Flink-JobMaster" class="headerlink" title="Flink JobMaster"></a>Flink JobMaster</h2><p>主要用来监控一个具体作业的所有任务的运行情况，并在合适的时间执行状态持久化和Task的重新调度。</p>
+<h2 id="TaskManager-任务管理器"><a href="#TaskManager-任务管理器" class="headerlink" title="TaskManager(任务管理器)"></a>TaskManager(任务管理器)</h2><p>TaskManager是flink集群的工作进程，Task会被调度到具体的TaskManager来执行。TaskManager之间会彼此通讯来交换任务处理中的数据。每个TaskManager会有规划数量的Task Slot，用来表明这工作进程可以调度的资源数量。</p>
+<h2 id="Task-Slot-任务槽"><a href="#Task-Slot-任务槽" class="headerlink" title="Task Slot(任务槽)"></a>Task Slot(任务槽)</h2><p>一个Task Slot任务槽，可以用来执行一个Task，是flink进群资源调度管理的基本单位。</p>
+<h1 id="5-flink为我们提供了什么？"><a href="#5-flink为我们提供了什么？" class="headerlink" title="5. flink为我们提供了什么？"></a>5. flink为我们提供了什么？</h1><p>至此，本文从flink的静态代码维度、运行态维度、物理集群维度对flink做了整体的阐述，相信大家已经有了一个整体的了解。<br>试想，我们编写的代码，大部分也都是对于来数的一个加工处理，就好比工厂流水线的来件加工，不断的把物料处理为我们想要的样子。<br>那么为什么还有流式编程的概念？为什么冒出了那么多的流式编程的框架storm、spark、flink等等？流式编程框架为我们提供了什么？<br>笔者有幸在项目中使用过storm和flink，这里个人见解总结了几点，不对之处欢迎评论区讨论。<br>个人认为流式框架给我们提供了如下能力:</p>
+<ul>
+<li>并发模板。<br>  试想如果我们自己去编写接入数据、处理数据、吐出数据的代码。在处理大并发场景，那么我们需要编写大量的并发代码，不同处理阶段，时间复杂度不同，需要抽象封装处理模板，并提供不同的并行度。流式编程框架通常为我们提供了完善的编程模型，并且可以灵活的配置不同处理阶段的并行度。</li>
+<li>流程编排。<br>  流式框架在提供了并发编程模型的同时，也提供了算子的编排能力，借助流式编程，我们通常可以根据业务需要编排数据处理的流水线，计算粒度细化，灵活性大大增强，代码的共用性也相应的提高。</li>
+<li>集群资源管理、任务调度。<br>  如果我们自己来编写数据处理，通常仅能局限于单个jvm进程。而流式编程框架为我们提供了集群的能力，可以在集群内调度更多的资源，提供更高的并行度和性能。</li>
+<li>任务监控。<br>  无论storm还是flink都为开发者提供了控制台，可以监控整个任务的调度日志和数据流量监控，这也是非常重要的一个部分。</li>
+</ul>
+<blockquote>
+<p>从使用来看，flink、storm这些流式框架，简单的就像是一个小工具。但从企业角度看，他们提供了大数据量、无尽数据的实时编程方案，包括平台集群、资源调度、作业、任务等等。</p>
+</blockquote>
+<h1 id="6-参考资料"><a href="#6-参考资料" class="headerlink" title="6. 参考资料"></a>6. 参考资料</h1><p>flink官方文档：<a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.13/docs/concepts/glossary/">https://nightlies.apache.org/flink/flink-docs-release-1.13/docs/concepts/glossary/</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: '/img/weixin.png',
+  alipayImage: '/img/zfb.jpg'
+});
+</script>
+      
+            
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/07/01/java/jmh/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">jmh</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article" style="overflow-y: scroll; max-width: 28%;">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">1. 前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E7%BB%B4%E5%BA%A6"><span class="nav-number">2.</span> <span class="nav-text">2. 静态代码维度</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Flink-Application%EF%BC%88flink%E5%BA%94%E7%94%A8%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">Flink Application（flink应用）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flink-Job%EF%BC%88flink%E4%BD%9C%E4%B8%9A%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">Flink Job（flink作业）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#logical-graph-%E9%80%BB%E8%BE%91%E6%8B%93%E6%89%91"><span class="nav-number">2.3.</span> <span class="nav-text">logical graph(逻辑拓扑)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Operator-%E7%AE%97%E5%AD%90"><span class="nav-number">2.4.</span> <span class="nav-text">Operator(算子)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Function-%E5%87%BD%E6%95%B0"><span class="nav-number">2.5.</span> <span class="nav-text">Function(函数)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Operator-Chain-%E7%AE%97%E5%AD%90%E9%93%BE"><span class="nav-number">2.6.</span> <span class="nav-text">Operator Chain(算子链)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E8%BF%90%E8%A1%8C%E6%80%81%E7%BB%B4%E5%BA%A6"><span class="nav-number">3.</span> <span class="nav-text">3. 运行态维度</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Physical-Graph-%E7%89%A9%E7%90%86%E6%8B%93%E6%89%91"><span class="nav-number">3.1.</span> <span class="nav-text">Physical Graph(物理拓扑)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task-%E4%BB%BB%E5%8A%A1"><span class="nav-number">3.2.</span> <span class="nav-text">Task(任务)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sub-Task-%E5%AD%90%E4%BB%BB%E5%8A%A1"><span class="nav-number">3.3.</span> <span class="nav-text">Sub Task(子任务)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E7%89%A9%E7%90%86%E9%9B%86%E7%BE%A4%E7%BB%B4%E5%BA%A6"><span class="nav-number">4.</span> <span class="nav-text">4. 物理集群维度</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JobManager-%E4%BD%9C%E4%B8%9A%E7%AE%A1%E7%90%86%E5%99%A8"><span class="nav-number">4.1.</span> <span class="nav-text">JobManager(作业管理器)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flink-JobMaster"><span class="nav-number">4.2.</span> <span class="nav-text">Flink JobMaster</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TaskManager-%E4%BB%BB%E5%8A%A1%E7%AE%A1%E7%90%86%E5%99%A8"><span class="nav-number">4.3.</span> <span class="nav-text">TaskManager(任务管理器)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task-Slot-%E4%BB%BB%E5%8A%A1%E6%A7%BD"><span class="nav-number">4.4.</span> <span class="nav-text">Task Slot(任务槽)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-flink%E4%B8%BA%E6%88%91%E4%BB%AC%E6%8F%90%E4%BE%9B%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">5.</span> <span class="nav-text">5. flink为我们提供了什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text">6. 参考资料</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2021 PLAYAROUND All Rights Reserved.
+          
+            <span id="busuanzi_container_site_uv">
+              本站访客数<span id="busuanzi_value_site_uv"></span>人次  
+              本站总访问量<span id="busuanzi_value_site_pv"></span>次
+            </span>
+          
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hiero" target="_blank">hiero</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var contentdiv = document.getElementById("content");
+
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+</script>
+
+<!-- Custome JS -->
+
+<script src="/js/my.js"></script>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css">
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="https://dnqof95d40fo6.cloudfront.net/atw7f8.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>

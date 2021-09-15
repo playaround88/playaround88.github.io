@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <!-- PACE Progress Bar START -->
+  
+    
+<script src="https://raw.githubusercontent.com/HubSpot/pace/v1.0.2/pace.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://github.com/HubSpot/pace/raw/master/themes/orange/pace-theme-flash.css">
+
+  
+  
+
+  <!-- PACE Progress Bar START -->
+
+  
+  <title>trait | PLAYAROUND</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="rust" />
+  
+  
+  
+  
+  <meta name="description" content="true">
+<meta property="og:type" content="article">
+<meta property="og:title" content="trait">
+<meta property="og:url" content="http://playaround88.github.io/2020/07/23/rust/nodus/trait/index.html">
+<meta property="og:site_name" content="PLAYAROUND">
+<meta property="og:description" content="true">
+<meta property="og:locale">
+<meta property="og:image" content="http://playaround88.github.io/img/rust.svg">
+<meta property="article:published_time" content="2020-07-23T07:49:15.000Z">
+<meta property="article:modified_time" content="2021-09-12T05:56:46.109Z">
+<meta property="article:author" content="wutb">
+<meta property="article:tag" content="rust">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://playaround88.github.io/img/rust.svg">
+  
+    <link rel="alternate" href="/atom.xml" title="PLAYAROUND" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="https://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" >
+  <link rel="stylesheet" href="/css/hiero.css" >
+  <link rel="stylesheet" href="/css/glyphs.css" >
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+  <!-- Custom CSS -->
+  
+<link rel="stylesheet" href="/css/my.css">
+
+  <!-- Google Adsense -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+      (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-0123456789ABCDEF",
+          enable_page_level_ads: true
+      });
+  </script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<script>
+var themeMenus = {};
+
+  themeMenus["/"] = "Home"; 
+
+  themeMenus["/archives"] = "Archives"; 
+
+  themeMenus["/categories"] = "Categories"; 
+
+  themeMenus["/tags"] = "Tags"; 
+
+  themeMenus["/about"] = "About"; 
+
+</script>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  <header id="allheader" class="site-header" role="banner">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="PLAYAROUND" rel="home"> PLAYAROUND </a>
+            
+          </h1>
+
+          
+            <div class="site-description">Put into practice, u are changing without realizing it! </div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+            <div class="clearfix sf-menu">
+
+              <ul id="main-nav" class="nmenu sf-js-enabled">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/categories">Categories</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="originBgDiv" style="background: #fff; width: 100%;">
+
+      <div style="max-height:600px; overflow: hidden;  display: flex; display: -webkit-flex; align-items: center;">
+        <img id="originBg" width="100%" alt="" src="">
+      </div>
+
+  </div>
+
+  <script>
+  function setAboutIMG(){
+      var imgUrls = "css/images/pose.jpg,https://source.unsplash.com/collection/954550/1920x1080".split(",");
+      var random = Math.floor((Math.random() * imgUrls.length ));
+      if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+        document.getElementById("originBg").src=imgUrls[random];
+      } else {
+        document.getElementById("originBg").src='/' + imgUrls[random];
+      }
+  }
+  bgDiv=document.getElementById("originBgDiv");
+  if(location.pathname.match('about')){
+    setAboutIMG();
+    bgDiv.style.display='block';
+  }else{
+    bgDiv.style.display='none';
+  }
+  </script>
+
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-rust/nodus/trait" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/rust.svg" rel="gallery_cktkz97fa001bgttc5os01fsc">
+        <img src="/img/rust.svg" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      trait
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	Posted on <a href="/2020/07/23/rust/nodus/trait/" class="article-date">
+	  <time datetime="2020-07-23T07:49:15.000Z" itemprop="datePublished">July 23, 2020</time>
+	</a>
+
+      
+	<span id="busuanzi_container_page_pv">
+	  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+	</span>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Trait-特征"><a href="#Trait-特征" class="headerlink" title="Trait(特征)"></a>Trait(特征)</h1><h2 id="derive-起源"><a href="#derive-起源" class="headerlink" title="derive(起源)"></a>derive(起源)</h2><p>编译器可以使用#[derive]属性提供一些trait的基本实现。声明属性后的trait实现，依然可以自己重新方法。  </p>
+<p>The following is a list of derivable traits:</p>
+<ul>
+<li>Comparison traits: Eq, PartialEq, Ord, PartialOrd.</li>
+<li>Clone, to create T from &amp;T via a copy.</li>
+<li>Copy, to give a type ‘copy semantics’ instead of ‘move semantics’.</li>
+<li>Hash, to compute a hash from &amp;T.</li>
+<li>Default, to create an empty instance of a data type.</li>
+<li>Debug, to format a value using the {:?} formatter.</li>
+</ul>
+<h2 id="returning-traits-with-dyn"><a href="#returning-traits-with-dyn" class="headerlink" title="returning traits with dyn"></a>returning traits with dyn</h2><p>编译器需要明确的知道返回值需要占用多少字节的空间，所以每一个函数的返回类型必须是具体类型。<br>当需要返回一个trait的具体实现类时，由于不同实现可能占用不同大小的空间，所以必能直接使用trait作为返回值。  </p>
+<p>我们可以通过返回一个Box，来绕过这样的限制。由于box是指向heap中的一块区域的引用，所以它拥有固定的长度。<br>rust总是试图明确的确定要在heap上分配多大内存，所以，如果你试图返回一个point-to-trait-on-heap的值时，需要通过dyn关键字。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">random_animal</span></span>(random_number: <span class="built_in">f64</span>) -&gt; <span class="built_in">Box</span>&lt;<span class="keyword">dyn</span> Animal&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> random_number &lt; <span class="number">0.5</span> &#123;</span><br><span class="line">        <span class="built_in">Box</span>::new(Sheep &#123;&#125;)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">Box</span>::new(Cow &#123;&#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="操作符重载"><a href="#操作符重载" class="headerlink" title="操作符重载"></a>操作符重载</h2><p>rust中操作符重载，非常简单，只需要实现具体的trait就可以了。<br>rust中的操作符相关的trait都在core::ops包中。</p>
+<h2 id="Drop"><a href="#Drop" class="headerlink" title="Drop"></a>Drop</h2><p>Drop trait只有一个drop方法，它将在对象作用域结束的时候被自动调用。  </p>
+<h2 id="当需要返回一个类型时返回-impl-Trait"><a href="#当需要返回一个类型时返回-impl-Trait" class="headerlink" title="当需要返回一个类型时返回 impl Trait"></a>当需要返回一个类型时返回 impl Trait</h2><p>impl可以用来返回trait和闭包类型</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">combine_vecs</span></span>(</span><br><span class="line">    v: <span class="built_in">Vec</span>&lt;<span class="built_in">i32</span>&gt;,</span><br><span class="line">    u: <span class="built_in">Vec</span>&lt;<span class="built_in">i32</span>&gt;,</span><br><span class="line">) -&gt; <span class="keyword">impl</span> <span class="built_in">Iterator</span>&lt;Item=<span class="built_in">i32</span>&gt; &#123;</span><br><span class="line">    v.into_iter().chain(u.into_iter()).cycle()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> v1 = <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">    <span class="keyword">let</span> v2 = <span class="built_in">vec!</span>[<span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> v3 = combine_vecs(v1, v2);</span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="literal">Some</span>(<span class="number">1</span>), v3.next());</span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="literal">Some</span>(<span class="number">2</span>), v3.next());</span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="literal">Some</span>(<span class="number">3</span>), v3.next());</span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="literal">Some</span>(<span class="number">4</span>), v3.next());</span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="literal">Some</span>(<span class="number">5</span>), v3.next());</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;all done&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Returns a function that adds `y` to its input</span></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">make_adder_function</span></span>(y: <span class="built_in">i32</span>) -&gt; <span class="keyword">impl</span> <span class="built_in">Fn</span>(<span class="built_in">i32</span>) -&gt; <span class="built_in">i32</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> closure = <span class="keyword">move</span> |x: <span class="built_in">i32</span>| &#123; x + y &#125;;</span><br><span class="line">    closure</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>函数声明的返回值<br>  -&gt; Box<dyn Trait><br>  -&gt; impl Trait<br>  有啥区别？<br>  动态分发和静态分发</li>
+</ul>
+<h2 id="Clone-Trait"><a href="#Clone-Trait" class="headerlink" title="Clone Trait"></a>Clone Trait</h2><p>当我们赋值或者调用函数时，默认是会发生所有权转移。有时候我们并不想让所有权发生转移，那么我们可以实现Clone Trait。</p>
+<h2 id="super-trait"><a href="#super-trait" class="headerlink" title="super trait"></a>super trait</h2><p>rust中并没有<code>继承</code>的概念，但是，我们可以定义一个trait是其他trait的<code>超集</code></p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Person</span></span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">name</span></span>(&amp;<span class="keyword">self</span>) -&gt; <span class="built_in">String</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Student is a supertrait of Person.</span></span><br><span class="line"><span class="comment">// Implementing Student requires you to also impl Person.</span></span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Student</span></span>: Person &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">university</span></span>(&amp;<span class="keyword">self</span>) -&gt; <span class="built_in">String</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Programmer</span></span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">fav_language</span></span>(&amp;<span class="keyword">self</span>) -&gt; <span class="built_in">String</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// CompSciStudent (computer science student) is a supertrait of both Programmer </span></span><br><span class="line"><span class="comment">// and Student. Implementing CompSciStudent requires you to impl both subtraits.</span></span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">CompSciStudent</span></span>: Programmer + Student &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">git_username</span></span>(&amp;<span class="keyword">self</span>) -&gt; <span class="built_in">String</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="消除重叠trait中的“二义性”"><a href="#消除重叠trait中的“二义性”" class="headerlink" title="消除重叠trait中的“二义性”"></a>消除重叠trait中的“二义性”</h2><p>我们可能实现多个trait，这些trait中可能会有重复的方法，怎么去消除“二义性”</p>
+<ol>
+<li>由于对不同trait的实现是在不同的impl块中，所以，很容易对重复的方法实现。</li>
+<li>当调用重复的方法时，需要用as关键字明确的指定要调用那个trait中的方法。<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> username = &lt;Form <span class="keyword">as</span> UsernameWidget&gt;::get(&amp;form);</span><br><span class="line"><span class="built_in">assert_eq!</span>(<span class="string">&quot;rustacean&quot;</span>.to_owned(), username);</span><br><span class="line"><span class="keyword">let</span> age = &lt;Form <span class="keyword">as</span> AgeWidget&gt;::get(&amp;form);</span><br><span class="line"><span class="built_in">assert_eq!</span>(<span class="number">28</span>, age);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/rust/">rust</a>, <a class="article-category-link" href="/categories/rust/nodus/">nodus</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rust/" rel="tag">rust</a></li></ul>
+
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: '/img/weixin.png',
+  alipayImage: '/img/zfb.jpg'
+});
+</script>
+      
+            
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/02/23/java/ide-vscode/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          idea总过期，eclipse“笨重”，你有第三选项
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/07/07/rust/nodus/match_deconstructuring/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">match和deconstructuring解构</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article" style="overflow-y: scroll; max-width: 28%;">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Trait-%E7%89%B9%E5%BE%81"><span class="nav-number">1.</span> <span class="nav-text">Trait(特征)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#derive-%E8%B5%B7%E6%BA%90"><span class="nav-number">1.1.</span> <span class="nav-text">derive(起源)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#returning-traits-with-dyn"><span class="nav-number">1.2.</span> <span class="nav-text">returning traits with dyn</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%AC%A6%E9%87%8D%E8%BD%BD"><span class="nav-number">1.3.</span> <span class="nav-text">操作符重载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Drop"><span class="nav-number">1.4.</span> <span class="nav-text">Drop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BD%93%E9%9C%80%E8%A6%81%E8%BF%94%E5%9B%9E%E4%B8%80%E4%B8%AA%E7%B1%BB%E5%9E%8B%E6%97%B6%E8%BF%94%E5%9B%9E-impl-Trait"><span class="nav-number">1.5.</span> <span class="nav-text">当需要返回一个类型时返回 impl Trait</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Clone-Trait"><span class="nav-number">1.6.</span> <span class="nav-text">Clone Trait</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#super-trait"><span class="nav-number">1.7.</span> <span class="nav-text">super trait</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E9%99%A4%E9%87%8D%E5%8F%A0trait%E4%B8%AD%E7%9A%84%E2%80%9C%E4%BA%8C%E4%B9%89%E6%80%A7%E2%80%9D"><span class="nav-number">1.8.</span> <span class="nav-text">消除重叠trait中的“二义性”</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2021 PLAYAROUND All Rights Reserved.
+          
+            <span id="busuanzi_container_site_uv">
+              本站访客数<span id="busuanzi_value_site_uv"></span>人次  
+              本站总访问量<span id="busuanzi_value_site_pv"></span>次
+            </span>
+          
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hiero" target="_blank">hiero</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var contentdiv = document.getElementById("content");
+
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+</script>
+
+<!-- Custome JS -->
+
+<script src="/js/my.js"></script>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css">
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="https://dnqof95d40fo6.cloudfront.net/atw7f8.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>

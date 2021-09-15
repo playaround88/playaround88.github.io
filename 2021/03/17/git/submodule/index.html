@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <!-- PACE Progress Bar START -->
+  
+    
+<script src="https://raw.githubusercontent.com/HubSpot/pace/v1.0.2/pace.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://github.com/HubSpot/pace/raw/master/themes/orange/pace-theme-flash.css">
+
+  
+  
+
+  <!-- PACE Progress Bar START -->
+
+  
+  <title>通过案例学习git-submodule | PLAYAROUND</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="git submodule" />
+  
+  
+  
+  
+  <meta name="description" content="true">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过案例学习git-submodule">
+<meta property="og:url" content="http://playaround88.github.io/2021/03/17/git/submodule/index.html">
+<meta property="og:site_name" content="PLAYAROUND">
+<meta property="og:description" content="true">
+<meta property="og:locale">
+<meta property="og:image" content="http://playaround88.github.io/img/git.png">
+<meta property="article:published_time" content="2021-03-17T03:38:33.000Z">
+<meta property="article:modified_time" content="2021-09-12T05:56:46.105Z">
+<meta property="article:author" content="wutb">
+<meta property="article:tag" content="git submodule">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://playaround88.github.io/img/git.png">
+  
+    <link rel="alternate" href="/atom.xml" title="PLAYAROUND" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="https://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" >
+  <link rel="stylesheet" href="/css/hiero.css" >
+  <link rel="stylesheet" href="/css/glyphs.css" >
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+  <!-- Custom CSS -->
+  
+<link rel="stylesheet" href="/css/my.css">
+
+  <!-- Google Adsense -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+      (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-0123456789ABCDEF",
+          enable_page_level_ads: true
+      });
+  </script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<script>
+var themeMenus = {};
+
+  themeMenus["/"] = "Home"; 
+
+  themeMenus["/archives"] = "Archives"; 
+
+  themeMenus["/categories"] = "Categories"; 
+
+  themeMenus["/tags"] = "Tags"; 
+
+  themeMenus["/about"] = "About"; 
+
+</script>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  <header id="allheader" class="site-header" role="banner">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="PLAYAROUND" rel="home"> PLAYAROUND </a>
+            
+          </h1>
+
+          
+            <div class="site-description">Put into practice, u are changing without realizing it! </div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+            <div class="clearfix sf-menu">
+
+              <ul id="main-nav" class="nmenu sf-js-enabled">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/categories">Categories</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="originBgDiv" style="background: #fff; width: 100%;">
+
+      <div style="max-height:600px; overflow: hidden;  display: flex; display: -webkit-flex; align-items: center;">
+        <img id="originBg" width="100%" alt="" src="">
+      </div>
+
+  </div>
+
+  <script>
+  function setAboutIMG(){
+      var imgUrls = "css/images/pose.jpg,https://source.unsplash.com/collection/954550/1920x1080".split(",");
+      var random = Math.floor((Math.random() * imgUrls.length ));
+      if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+        document.getElementById("originBg").src=imgUrls[random];
+      } else {
+        document.getElementById("originBg").src='/' + imgUrls[random];
+      }
+  }
+  bgDiv=document.getElementById("originBgDiv");
+  if(location.pathname.match('about')){
+    setAboutIMG();
+    bgDiv.style.display='block';
+  }else{
+    bgDiv.style.display='none';
+  }
+  </script>
+
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-git/submodule" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/git.png" rel="gallery_cktkz97ec0001gttcbv8b6hos">
+        <img src="/img/git.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      通过案例学习git-submodule
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	Posted on <a href="/2021/03/17/git/submodule/" class="article-date">
+	  <time datetime="2021-03-17T03:38:33.000Z" itemprop="datePublished">March 17, 2021</time>
+	</a>
+
+      
+	<span id="busuanzi_container_page_pv">
+	  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+	</span>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1-Git-submodule的简介"><a href="#1-Git-submodule的简介" class="headerlink" title="1. Git submodule的简介"></a>1. Git submodule的简介</h1><p>如果你也曾经检出过一个比较大型的项目，肯定有过这样的痛苦经历，仅仅clone下载项目就花费了非常长的时间。git会把一个仓库的全部版本数据放到.git目录，如果一个大型项目长时间的提交后，就会造成仓库过大下载变慢。git submodule是一个大型项目模块分拆编排的解决方案，合理的引入submodule或许可以显著改善大型项目结构和编排。下面我们一起动手学习一下这个小技能。</p>
+<h2 id="1-1-从git的一个缺点说起"><a href="#1-1-从git的一个缺点说起" class="headerlink" title="1.1 从git的一个缺点说起"></a>1.1 从git的一个缺点说起</h2><p>首先，我们从git的一个小缺点说起，很多人应该都用过SVN（git流行前曾经是很多公司的主力版本管理工具），SVN的任意一个目录都可以单独检出，比如，如果我们仅维护一个大项目的一个模块，那么我们可以仅检出对应的模块的目录。而git一个仓库只能作为一个完整的检出“原子”，所以才有了开篇说的问题，对于一个大型的长期的项目，检出就变的非常卡慢。</p>
+<h2 id="1-2-git-submodule的适用场景"><a href="#1-2-git-submodule的适用场景" class="headerlink" title="1.2 git submodule的适用场景"></a>1.2 git submodule的适用场景</h2><p>git submodule可以把一个项目仓库，分解为多个相互独立的子模块子仓库，可以显著降低主仓库的大小。了解了git submodule的基本形态，或许我们都能想到一些适合git submodule的应用场景。下面是笔者想到的两个适用场景，并且后面动手环节，也会从里面选择一个场景进行试验。</p>
+<ul>
+<li>大型项目的模块分割，编译版本编排。</li>
+<li>在多个项目中使用和完善的公共工具模块项目。</li>
+</ul>
+<p>总之，如pro git书中所说:</p>
+<blockquote>
+<p>当想要多个项目当做独立的仓库，同时又想在其他项目中使用它们时，就可以使用submodule。 –《Pro Git》</p>
+</blockquote>
+<h2 id="1-3-git-submodule的命令汇总"><a href="#1-3-git-submodule的命令汇总" class="headerlink" title="1.3 git submodule的命令汇总"></a>1.3 git submodule的命令汇总</h2><p>在动手做实验之前，我们先简单了解一下git submodule相关的命令，这样动手的时候大家能有一个基本的了解。</p>
+<p>子模块命令git submodule。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git submodule add : 添加一个子模块</span><br><span class="line">git submodule init ：初始化子模块</span><br><span class="line">git submodule update ：应用子模块的远程更新</span><br><span class="line">git submodule sync ：子模块url修改后同步变化</span><br><span class="line">git submodule foreach ‘git stash’ ：子模块遍历执行命令</span><br></pre></td></tr></table></figure>
+
+<p>一些命令下会有子模块相关的一些选项。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git clone  --recurse-submodules ：递归下载所有子模块</span><br><span class="line">git checkout --recurse-submodules ：递归检出子模块</span><br><span class="line">git pull --recurse-submodules ：拉起并更新，包括子模块</span><br><span class="line">git push --recurse-submodules&#x3D;on-daemon ：提交更新</span><br><span class="line">git diff –submodule ：查看变化</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-案例1：工具类项目子模块"><a href="#2-案例1：工具类项目子模块" class="headerlink" title="2. 案例1：工具类项目子模块"></a>2. 案例1：工具类项目子模块</h1><p>本章我们将动手来使用git submodule相关的命令完成一个使用案例。这里我们选择1.2节中第二个适用场景，在多个项目中使用和完善的公共工具模块项目。 </p>
+<p>这里我们假设有一个util模块存放的是一些各个项目中总结下来的工具类；然后，我们创建了一个新的product项目，需要把这个模块作为我们的一个子模块引入；最后，从一个新加入小组的开发者角度，完整的演示检出和参与完善项目。  </p>
+<blockquote>
+<p>下面的动手操作，会先给出所有的操作步骤，然后给出对应的完整的命令列表。</p>
+</blockquote>
+<h2 id="2-1-创建项目服务器仓库"><a href="#2-1-创建项目服务器仓库" class="headerlink" title="2.1 创建项目服务器仓库"></a>2.1 创建项目服务器仓库</h2><p>我们假设实验的根目录为submodule。</p>
+<ul>
+<li>在submodule中创建一个server目录，用来表示我们的git服务器；</li>
+<li>在server目录中，创建util.git和product.git目录来表示我们工具项目和主项目。</li>
+<li>分别进入两个*.git的目录，初始化我们的git仓库。</li>
+</ul>
+<p>完整命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mkdir submodule &amp;&amp; cd submodule</span><br><span class="line">mkdir -p server/util.git</span><br><span class="line">mkdir server/product.git</span><br><span class="line"></span><br><span class="line">cd server/util.git</span><br><span class="line">git init --bare</span><br><span class="line"></span><br><span class="line">cd ../product.git</span><br><span class="line">git init --bare</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-在项目中使用submodule"><a href="#2-2-在项目中使用submodule" class="headerlink" title="2.2 在项目中使用submodule"></a>2.2 在项目中使用submodule</h2><ul>
+<li>在根目录下，创建一个wks-1目录，用来表示我们的工作空间。</li>
+<li>使用maven的maven-archetype-quickstart创建util/product项目。</li>
+<li>在新创建项目中初始化为git仓库，然后添加初始化提交；</li>
+<li>在项目中添加git远程仓库，关联2.1节中创建的仓库“服务器”;</li>
+<li>在product仓库中，添加util子模块。<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">mkdir wks-1 &amp;&amp; cd wks-1</span><br><span class="line"><span class="meta">#</span><span class="bash"> ...(略)maven命令或者ide创建util/product仓库</span></span><br><span class="line">cd util</span><br><span class="line">git init</span><br><span class="line">git add *</span><br><span class="line">git commit -m &#x27;init&#x27;</span><br><span class="line">git remote add origin ../../server/util.git</span><br><span class="line">git push origin master -u</span><br><span class="line"></span><br><span class="line">cd product</span><br><span class="line">git init</span><br><span class="line">git add *</span><br><span class="line">git commit -m &#x27;init&#x27;</span><br><span class="line">git remote add origin ../../server/product.git</span><br><span class="line">git push origin master -u</span><br><span class="line"></span><br><span class="line">git submodule add ../../server/util.git</span><br><span class="line">git add *</span><br><span class="line">git commit -m &#x27;add util submodule&#x27;</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="2-3-最简使用模式“仅跟踪submodule的更新”"><a href="#2-3-最简使用模式“仅跟踪submodule的更新”" class="headerlink" title="2.3 最简使用模式“仅跟踪submodule的更新”"></a>2.3 最简使用模式“仅跟踪submodule的更新”</h2><p>使用submodule的最简模式就是仅仅跟踪子模块的更新，使用最新版本的子模块代码。那么这种模式下，仅仅需要几个命令就可以完成。如下几个命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git submodule sync #同步子模块url和分支配置变更</span><br><span class="line">git submodule init #检出子模块代码完成初始化</span><br><span class="line">git submodule update --recursive #更新应用子模块的变更</span><br></pre></td></tr></table></figure>
+<p>我们在主项目product上做变更、提交等操作，可以看到和一个正常的git仓库完全一样。我们唯一要做的是，当接受到submodule升级通知时，执行一下上面的几个命令即可。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">cd wks-1/util</span><br><span class="line">echo &#x27;stringutil&#x27; &gt; src/main/java/StringUtil.java</span><br><span class="line">git add *</span><br><span class="line">git commit -m &#x27;add StringUtil&#x27;</span><br><span class="line">git push</span><br><span class="line"><span class="meta">#</span><span class="bash"> ---</span></span><br><span class="line">cd wks-1/product</span><br><span class="line">git pull #拉取更新，但是子模块并不会merge</span><br><span class="line">git submodule update --recursive #应用子模块更新</span><br><span class="line">git pull --recurse-submodules #该命令等于上面两个命令</span><br><span class="line"></span><br><span class="line">git submodule update --remote util #可以从父项目中直接更新同步远程子模块</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-4-同时编辑主项目和子模块"><a href="#2-4-同时编辑主项目和子模块" class="headerlink" title="2.4 同时编辑主项目和子模块"></a>2.4 同时编辑主项目和子模块</h2><p>更常见的场景是，我们要同时在主项目和子模块上工作。如果已经按照上面的操作步骤操作，我们的product项目中已经包含了util项目的完整代码。其实，这个时候就已经完全可以同时在两个仓库上工作了。但是，默认情况下，子模块并没有分支跟踪远程分支，要在子模块正常工作，通常需要设置一个本地分支跟踪远程分支。</p>
+<p>这里也有两种使用方式，如果你每次都切换到子模块的目录，那么工作方式和一个正常的仓库几乎一样；如果你是在主目录中直接操作子模块仓库，那么就需要一些命令的submodule选项。这里仅仅演示第二种情况。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">cd product/util</span><br><span class="line">git checkout master</span><br><span class="line"></span><br><span class="line">echo &#x27;date util&#x27; &gt; src/main/java/DateUtil.java</span><br><span class="line">git add *</span><br><span class="line">git commit -m &#x27;add DateUtil&#x27;</span><br><span class="line"></span><br><span class="line">cd ..</span><br><span class="line">git add *</span><br><span class="line">git commit -m &#x27;add DateUtil&#x27; #主项目也需要添加子模块变更</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 在提交主项目时，必须确保子模块已经提交</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 提交前先更新子模块</span></span><br><span class="line">git submodule update --remote [--merge/--rebase] #merge/rebase二选一</span><br><span class="line"><span class="meta">#</span><span class="bash"> 子模块提交，要么进入每一个子模块执行，要不就要使用主项目的push操作，并添加选项</span></span><br><span class="line">git push --recurse-submodules=on-demand </span><br></pre></td></tr></table></figure>
+
+<h2 id="2-5-检出包含子模块的项目"><a href="#2-5-检出包含子模块的项目" class="headerlink" title="2.5 检出包含子模块的项目"></a>2.5 检出包含子模块的项目</h2><p>上面都是从初始创建的步骤描述的。假设此时有新成员加入开发小组，那么需要那些操作，然后才可以达到同时在多个仓库上开发项目呐。一般来说如下操作：</p>
+<ul>
+<li>检出包含子模块的项目，检出正确的分支，初始化子模块；</li>
+<li>进入子模块并检出创建对应分支跟踪远程分支，其他的就和2.4步骤基本一致了。<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git clone &lt;url&gt;</span><br><span class="line">git checkout dev --recurse-submodules</span><br><span class="line">git submodule sync</span><br><span class="line">git submodule update --init --recursive</span><br><span class="line"><span class="meta">#</span><span class="bash"> ... (略)进入子模块，并检出分支跟踪远程分支</span></span><br></pre></td></tr></table></figure>
+<h1 id="3-案例2：前中台衔接项目（backend-for-frontend）"><a href="#3-案例2：前中台衔接项目（backend-for-frontend）" class="headerlink" title="3. 案例2：前中台衔接项目（backend for frontend）"></a>3. 案例2：前中台衔接项目（backend for frontend）</h1>在互联网大中台的环境中，为了更好的适配前端请求，通常会有一个聚合层。该层核心的处理逻辑是，聚合多个子域的能力，并提供给前端符合业务逻辑的接口，该层被称为BFF(backend for frontend)。本章的案例中，我们就假设这样一个BFF场景，并借助submodule优化项目分工和发布编排。</li>
+</ul>
+<p>假设，我们正在开发一个零售项目，根据一定的领域规划，我们的整个项目拆分了商品、订单、评价三个敏捷开发小组。各个小组聚焦所在领域的业务开发和高可用、高并发设计，并期望开发一个BFF项目为前端提供适配。普通git仓库下，我们只能把BFF仓库代码权限开发给三个小组的开发人员，大家共同在一个仓库下协同工作。God bless，如果每个人都能清晰的提交，并步调一致，大家不会遇到问题。可是，如果各个小组开发步调不一致，上传代码业务不清晰，整个项目的分支管理就会乱成一团麻。当项目发展到这样的情况时，就是时候引入git submodule来优化分工和编排版本发布了。</p>
+<h2 id="3-1-如何优化分工？"><a href="#3-1-如何优化分工？" class="headerlink" title="3.1 如何优化分工？"></a>3.1 如何优化分工？</h2><p>前面描述的案例下，submodule如何优化分工呐？很明显，可以按照工作小组把聚合层的业务代码拆分为多个submodule；这样，各个小组就可以几乎不会相互影响的独立工作，甚至独立启动调试。各个小组也可以按照自己的节奏完成开发任务，然后由BFF主项目把各个子模块组合到一起编译打包上线。整个聚合层的分工就可以完全贴合中台的分工，各个仓库提交也互不影响。</p>
+<p>使用submodule优化分工后的目录结构如下所示：</p>
+<pre>
+bff
+├── product     # 商品聚合子模块
+├── order       # 订单聚合子模块
+├── comment     # 评论聚合子模块
+├── bff-web     # bff启动工程
+├── .gitignore  # ignore配置
+├── .gitmodules # 子模块配置
+└── pom.xml     # 父工程pom
+</pre>
+
+<h2 id="3-2-如何优化发布编排？"><a href="#3-2-如何优化发布编排？" class="headerlink" title="3.2 如何优化发布编排？"></a>3.2 如何优化发布编排？</h2><p>什么是发布编排呐？我们知道，submodule在主项目中，仅仅是记录了子模块的url、分支、所在的提交信息。而且主项目不同分支可以设置不同的子模块分支，甚至主项目中使用的具体的子模块的提交点。有了这样的能力，主项目就可以灵活的编排一次发版中，各个子模块所使用的分支，所在的提交点，这样便达到编排发布版本的能力。子模块的演进对主项目来说可以完全不用关心，只需要知道我要发布的版本使用的分支和提交点就可以了，灵活性非常好。</p>
+<blockquote>
+<p>上面描述的案例，对比上一个案例，并不会有新的submodule命令，无非是一个子模块变成多个子模块，所以这边不在赘述。主要讲解案例场景，优化分工和发布编排的应用原理解释。</p>
+</blockquote>
+<h1 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h1><p>上面演示了submodule的基本使用场景，大家应该有了一个基本的了解，咱们再重新总结一下submodule相关的命令。如1.3节中所列，这些命令基本分成两组，第一组就是添加同步submodule的一些基本操作，这些命令是引入submodule的基础；第二组就是我们日常使用的git基本命令，添加了一些选项，以使之在包含子模块的仓库中正常工作；分组后其实就非常简单好记了。</p>
+<p>我们都知道git根本是一套对象存储系统，那么最后，咱们再来看一下submodule在git仓库中是如何存储的呐？当我们在项目中添加了子模块后，项目的根目录就多出了一个.gitsubmodule的文件，里面记录了子模块的仓库地址，以及引入的分支。此时，如果我们在主项目目录中执行<code>git diff --submodule</code>命令，就会发现里面也会包含子模块目录的变更，变更内容为子模块所在的提交值的hash。理解了submodule的存储，后面使用过程中就更好理解命令的执行顺序和逻辑了。（完结）</p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/git/">git</a>, <a class="article-category-link" href="/categories/git/submodule/">submodule</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git-submodule/" rel="tag">git submodule</a></li></ul>
+
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: '/img/weixin.png',
+  alipayImage: '/img/zfb.jpg'
+});
+</script>
+      
+            
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/07/01/java/jmh/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          jmh
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/07/java/balance/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">负载均衡算法实现</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article" style="overflow-y: scroll; max-width: 28%;">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Git-submodule%E7%9A%84%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">1. Git submodule的简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E4%BB%8Egit%E7%9A%84%E4%B8%80%E4%B8%AA%E7%BC%BA%E7%82%B9%E8%AF%B4%E8%B5%B7"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 从git的一个缺点说起</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-git-submodule%E7%9A%84%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 git submodule的适用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-git-submodule%E7%9A%84%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 git submodule的命令汇总</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E6%A1%88%E4%BE%8B1%EF%BC%9A%E5%B7%A5%E5%85%B7%E7%B1%BB%E9%A1%B9%E7%9B%AE%E5%AD%90%E6%A8%A1%E5%9D%97"><span class="nav-number">2.</span> <span class="nav-text">2. 案例1：工具类项目子模块</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BB%93%E5%BA%93"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 创建项目服务器仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8submodule"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 在项目中使用submodule</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E6%9C%80%E7%AE%80%E4%BD%BF%E7%94%A8%E6%A8%A1%E5%BC%8F%E2%80%9C%E4%BB%85%E8%B7%9F%E8%B8%AAsubmodule%E7%9A%84%E6%9B%B4%E6%96%B0%E2%80%9D"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 最简使用模式“仅跟踪submodule的更新”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E5%90%8C%E6%97%B6%E7%BC%96%E8%BE%91%E4%B8%BB%E9%A1%B9%E7%9B%AE%E5%92%8C%E5%AD%90%E6%A8%A1%E5%9D%97"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 同时编辑主项目和子模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-%E6%A3%80%E5%87%BA%E5%8C%85%E5%90%AB%E5%AD%90%E6%A8%A1%E5%9D%97%E7%9A%84%E9%A1%B9%E7%9B%AE"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 检出包含子模块的项目</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E6%A1%88%E4%BE%8B2%EF%BC%9A%E5%89%8D%E4%B8%AD%E5%8F%B0%E8%A1%94%E6%8E%A5%E9%A1%B9%E7%9B%AE%EF%BC%88backend-for-frontend%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">3. 案例2：前中台衔接项目（backend for frontend）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96%E5%88%86%E5%B7%A5%EF%BC%9F"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 如何优化分工？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96%E5%8F%91%E5%B8%83%E7%BC%96%E6%8E%92%EF%BC%9F"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 如何优化发布编排？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">4. 总结</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2021 PLAYAROUND All Rights Reserved.
+          
+            <span id="busuanzi_container_site_uv">
+              本站访客数<span id="busuanzi_value_site_uv"></span>人次  
+              本站总访问量<span id="busuanzi_value_site_pv"></span>次
+            </span>
+          
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hiero" target="_blank">hiero</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var contentdiv = document.getElementById("content");
+
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+</script>
+
+<!-- Custome JS -->
+
+<script src="/js/my.js"></script>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css">
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="https://dnqof95d40fo6.cloudfront.net/atw7f8.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>

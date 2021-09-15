@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <!-- PACE Progress Bar START -->
+  
+    
+<script src="https://raw.githubusercontent.com/HubSpot/pace/v1.0.2/pace.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://github.com/HubSpot/pace/raw/master/themes/orange/pace-theme-flash.css">
+
+  
+  
+
+  <!-- PACE Progress Bar START -->
+
+  
+  <title>负载均衡算法实现 | PLAYAROUND</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="balance" />
+  
+  
+  
+  
+  <meta name="description" content="true">
+<meta property="og:type" content="article">
+<meta property="og:title" content="负载均衡算法实现">
+<meta property="og:url" content="http://playaround88.github.io/2021/03/07/java/balance/index.html">
+<meta property="og:site_name" content="PLAYAROUND">
+<meta property="og:description" content="true">
+<meta property="og:locale">
+<meta property="og:image" content="http://playaround88.github.io/img/balance.jpg">
+<meta property="article:published_time" content="2021-03-07T07:46:07.000Z">
+<meta property="article:modified_time" content="2021-09-12T05:56:46.106Z">
+<meta property="article:author" content="wutb">
+<meta property="article:tag" content="balance">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://playaround88.github.io/img/balance.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="PLAYAROUND" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="https://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" >
+  <link rel="stylesheet" href="/css/hiero.css" >
+  <link rel="stylesheet" href="/css/glyphs.css" >
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+  <!-- Custom CSS -->
+  
+<link rel="stylesheet" href="/css/my.css">
+
+  <!-- Google Adsense -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+      (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-0123456789ABCDEF",
+          enable_page_level_ads: true
+      });
+  </script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<script>
+var themeMenus = {};
+
+  themeMenus["/"] = "Home"; 
+
+  themeMenus["/archives"] = "Archives"; 
+
+  themeMenus["/categories"] = "Categories"; 
+
+  themeMenus["/tags"] = "Tags"; 
+
+  themeMenus["/about"] = "About"; 
+
+</script>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  <header id="allheader" class="site-header" role="banner">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="PLAYAROUND" rel="home"> PLAYAROUND </a>
+            
+          </h1>
+
+          
+            <div class="site-description">Put into practice, u are changing without realizing it! </div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+            <div class="clearfix sf-menu">
+
+              <ul id="main-nav" class="nmenu sf-js-enabled">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/categories">Categories</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="originBgDiv" style="background: #fff; width: 100%;">
+
+      <div style="max-height:600px; overflow: hidden;  display: flex; display: -webkit-flex; align-items: center;">
+        <img id="originBg" width="100%" alt="" src="">
+      </div>
+
+  </div>
+
+  <script>
+  function setAboutIMG(){
+      var imgUrls = "css/images/pose.jpg,https://source.unsplash.com/collection/954550/1920x1080".split(",");
+      var random = Math.floor((Math.random() * imgUrls.length ));
+      if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+        document.getElementById("originBg").src=imgUrls[random];
+      } else {
+        document.getElementById("originBg").src='/' + imgUrls[random];
+      }
+  }
+  bgDiv=document.getElementById("originBgDiv");
+  if(location.pathname.match('about')){
+    setAboutIMG();
+    bgDiv.style.display='block';
+  }else{
+    bgDiv.style.display='none';
+  }
+  </script>
+
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-java/balance" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/balance.jpg" rel="gallery_cktkz97ej0003gttc94n0dq60">
+        <img src="/img/balance.jpg" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      负载均衡算法实现
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	Posted on <a href="/2021/03/07/java/balance/" class="article-date">
+	  <time datetime="2021-03-07T07:46:07.000Z" itemprop="datePublished">March 7, 2021</time>
+	</a>
+
+      
+	<span id="busuanzi_container_page_pv">
+	  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+	</span>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h1><p>微服务场景，通常通过多服务器实例实现应用的水平扩展，借助负载均衡器，实现接入点的无感知接入。负载均衡器的核心就是负载均衡算法，通过一定的逻辑将前端请求，均匀、高效的分发到后端应用实例。当我们使用市面上成熟的负载均衡器时，根据需求配置合理的负载均衡算法也是核心的配置之一，这些都需要对负载均衡算法的深入理解。下面我们将常见的负载均衡算法罗列，并简化实现算法的核心逻辑。</p>
+<h1 id="2-常见算法"><a href="#2-常见算法" class="headerlink" title="2. 常见算法"></a>2. 常见算法</h1><h2 id="2-1-轮询法"><a href="#2-1-轮询法" class="headerlink" title="2.1 轮询法"></a>2.1 轮询法</h2><p>将请求按顺序轮流地分配到后端服务器上。均衡地对待后端的每一台服务器，而不关心服务器实际的连接数和当前的系统负载。</p>
+<h2 id="2-2-随机法"><a href="#2-2-随机法" class="headerlink" title="2.2 随机法"></a>2.2 随机法</h2><p>通过系统的随机算法，根据后端服务器的列表大小值来随机选取其中的一台服务器进行访问。由概率统计理论可以得知，随着客户端调用服务端的次数增多，其实际效果越来越接近于平均分配，也就是轮询的结果。</p>
+<h2 id="2-3-源地址哈希法"><a href="#2-3-源地址哈希法" class="headerlink" title="2.3 源地址哈希法"></a>2.3 源地址哈希法</h2><p>源地址哈希的思想是根据获取客户端的IP地址，通过哈希函数计算得到的一个数值，用该数值对服务器列表的大小进行取模运算，得到的结果便是客服端要访问服务器的序号。采用源地址哈希法进行负载均衡，同一IP地址的客户端，当后端服务器列表不变时，它每次都会映射到同一台后端服务器进行访问。这种算法可以用于会话保持，避免会话共享的集成。</p>
+<h2 id="2-4-加权轮询法"><a href="#2-4-加权轮询法" class="headerlink" title="2.4 加权轮询法"></a>2.4 加权轮询法</h2><p>不同的后端服务器可能机器的配置和当前系统的负载并不相同，因此它们的抗压能力也不相同。给配置高、负载低的机器配置更高的权重，让其处理更多的请；而配置低、负载高的机器，给其分配较低的权重，降低其系统负载，加权轮询能很好地处理这一问题，并将请求顺序且按照权重分配到后端。</p>
+<h2 id="2-5-加权随机法"><a href="#2-5-加权随机法" class="headerlink" title="2.5 加权随机法"></a>2.5 加权随机法</h2><p>与加权轮询法一样，加权随机法也根据后端机器的配置，系统的负载分配不同的权重。不同的是，它是按照权重随机请求后端服务器，而非顺序。</p>
+<h2 id="2-6-最小连接数法"><a href="#2-6-最小连接数法" class="headerlink" title="2.6 最小连接数法"></a>2.6 最小连接数法</h2><p>最小连接数算法比较灵活和智能，由于后端服务器的配置不尽相同，对于请求的处理有快有慢，它是根据后端服务器当前的连接情况，动态地选取其中当前积压连接数最少的一台服务器来处理当前的请求，尽可能地提高后端服务的利用效率，将负责合理地分流到每一台服务器。</p>
+<h1 id="3-算法实现"><a href="#3-算法实现" class="headerlink" title="3. 算法实现"></a>3. 算法实现</h1><p>负载均衡算法本身可以简化为一个从服务器列表获取一个服务器ip，同时为了兼容加权算法，所以这里的实现就直接简化为通过一个ip为key，权重为value的Map。接口定义如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IBalanceAlg</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * ip为key，权重为value</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function">String <span class="title">execute</span><span class="params">(Map&lt;String, Integer&gt; addMap)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面章节即为具体算法的实现。</p>
+<h2 id="3-1-轮询算法"><a href="#3-1-轮询算法" class="headerlink" title="3.1 轮询算法"></a>3.1 轮询算法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RoundRobin</span> <span class="keyword">implements</span> <span class="title">IBalanceAlg</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Integer pos=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">execute</span><span class="params">(Map&lt;String, Integer&gt; addMap)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//创建新Map，避免并发问题</span></span><br><span class="line">		Map&lt;String,Integer&gt; serverMap=<span class="keyword">new</span> HashMap&lt;String,Integer&gt;();</span><br><span class="line">		serverMap.putAll(addMap);</span><br><span class="line">		<span class="comment">//取得所有的服务地址</span></span><br><span class="line">		Set&lt;String&gt; serviceSet=serverMap.keySet();</span><br><span class="line">		List&lt;String&gt; serviceList=<span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">		serviceList.addAll(serviceSet);</span><br><span class="line">		<span class="comment">//同步位置变量</span></span><br><span class="line">		String server=<span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">synchronized</span> (pos) &#123;</span><br><span class="line">			<span class="keyword">if</span>(pos&gt;=serviceList.size())&#123;</span><br><span class="line">				pos=<span class="number">0</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			server=serviceList.get(pos);</span><br><span class="line">			pos++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> server;</span><br><span class="line">	&#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-随机算法"><a href="#3-2-随机算法" class="headerlink" title="3.2 随机算法"></a>3.2 随机算法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 没有同步锁定，性能更好</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RandomSelect</span> <span class="keyword">implements</span> <span class="title">IBalanceAlg</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">execute</span><span class="params">(Map&lt;String, Integer&gt; addMap)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 创建新Map，避免并发问题</span></span><br><span class="line">		Map&lt;String, Integer&gt; serverMap = <span class="keyword">new</span> HashMap&lt;String, Integer&gt;();</span><br><span class="line">		serverMap.putAll(addMap);</span><br><span class="line">		<span class="comment">// 取得所有的服务地址</span></span><br><span class="line">		Set&lt;String&gt; serviceSet = serverMap.keySet();</span><br><span class="line">		List&lt;String&gt; serviceList = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">		serviceList.addAll(serviceSet);</span><br><span class="line">		<span class="comment">//随机</span></span><br><span class="line">		Random random=<span class="keyword">new</span> Random();</span><br><span class="line">		<span class="keyword">int</span> rvalue=random.nextInt(serviceList.size());</span><br><span class="line">		String server = serviceList.get(rvalue);</span><br><span class="line">		<span class="keyword">return</span> server;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3-带权重都轮询算法"><a href="#3-3-带权重都轮询算法" class="headerlink" title="3.3 带权重都轮询算法"></a>3.3 带权重都轮询算法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 按权重轮询负载均衡算法</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WeightRoundRobin</span> <span class="keyword">implements</span> <span class="title">IBalanceAlg</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Integer pos=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">execute</span><span class="params">(Map&lt;String, Integer&gt; addMap)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//创建新Map，避免并发问题</span></span><br><span class="line">		Map&lt;String,Integer&gt; serverMap=<span class="keyword">new</span> HashMap&lt;String,Integer&gt;();</span><br><span class="line">		serverMap.putAll(addMap);</span><br><span class="line">		<span class="comment">//按权重取得所有的服务地址</span></span><br><span class="line">		List&lt;String&gt; serviceList=<span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">		<span class="keyword">for</span>(Map.Entry&lt;String, Integer&gt; ent:serverMap.entrySet())&#123;</span><br><span class="line">			String service=ent.getKey();</span><br><span class="line">			Integer weight=ent.getValue();</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;weight;i++)&#123;</span><br><span class="line">				serviceList.add(service);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//同步位置变量</span></span><br><span class="line">		String server=<span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">synchronized</span> (pos) &#123;</span><br><span class="line">			<span class="keyword">if</span>(pos&gt;=serviceList.size())&#123;</span><br><span class="line">				pos=<span class="number">0</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			server=serviceList.get(pos);</span><br><span class="line">			pos++;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">return</span> server;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-4-带权重都随机算法"><a href="#3-4-带权重都随机算法" class="headerlink" title="3.4 带权重都随机算法"></a>3.4 带权重都随机算法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 按权重随机，没有同步锁定，性能更好</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WeightRandom</span> <span class="keyword">implements</span> <span class="title">IBalanceAlg</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">execute</span><span class="params">(Map&lt;String, Integer&gt; addMap)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//创建新Map，避免并发问题</span></span><br><span class="line">		Map&lt;String,Integer&gt; serverMap=<span class="keyword">new</span> HashMap&lt;String,Integer&gt;();</span><br><span class="line">		serverMap.putAll(addMap);</span><br><span class="line">		<span class="comment">//按权重取得所有的服务地址</span></span><br><span class="line">		List&lt;String&gt; serviceList=<span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">		<span class="keyword">for</span>(Map.Entry&lt;String, Integer&gt; ent:serverMap.entrySet())&#123;</span><br><span class="line">			String service=ent.getKey();</span><br><span class="line">			Integer weight=ent.getValue();</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;weight;i++)&#123;</span><br><span class="line">				serviceList.add(service);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//随机</span></span><br><span class="line">		Random random=<span class="keyword">new</span> Random();</span><br><span class="line">		<span class="keyword">int</span> rvalue=random.nextInt(serviceList.size());</span><br><span class="line">		String server = serviceList.get(rvalue);</span><br><span class="line">		<span class="keyword">return</span> server;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-5-源地址hash算法"><a href="#3-5-源地址hash算法" class="headerlink" title="3.5 源地址hash算法"></a>3.5 源地址hash算法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 源地址hash负载均衡算法，在服务列表不变的情况下，可以保证服务器为同一个</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> wu</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConsumerHash</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">execute</span><span class="params">(Map&lt;String, Integer&gt; addMap, String remoteIp)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 创建新Map，避免并发问题</span></span><br><span class="line">		Map&lt;String, Integer&gt; serverMap = <span class="keyword">new</span> HashMap&lt;String, Integer&gt;();</span><br><span class="line">		serverMap.putAll(addMap);</span><br><span class="line">		<span class="comment">// 取得所有的服务地址</span></span><br><span class="line">		Set&lt;String&gt; serviceSet = serverMap.keySet();</span><br><span class="line">		List&lt;String&gt; serviceList = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">		serviceList.addAll(serviceSet);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">int</span> hashCode=remoteIp.hashCode();</span><br><span class="line">		<span class="keyword">int</span> servicePos=hashCode%serviceList.size();</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> serviceList.get(servicePos);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>| 最小连接数算法，需要记录到各个服务器的存活的连接数，这里不做实现。</p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/java/">java</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/balance/" rel="tag">balance</a></li></ul>
+
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: '/img/weixin.png',
+  alipayImage: '/img/zfb.jpg'
+});
+</script>
+      
+            
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/03/17/git/submodule/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          通过案例学习git-submodule
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/02/23/java/ide-vscode/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">idea总过期，eclipse“笨重”，你有第三选项</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article" style="overflow-y: scroll; max-width: 28%;">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">2. 常见算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E8%BD%AE%E8%AF%A2%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 轮询法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E9%9A%8F%E6%9C%BA%E6%B3%95"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 随机法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E6%BA%90%E5%9C%B0%E5%9D%80%E5%93%88%E5%B8%8C%E6%B3%95"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 源地址哈希法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E5%8A%A0%E6%9D%83%E8%BD%AE%E8%AF%A2%E6%B3%95"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 加权轮询法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-%E5%8A%A0%E6%9D%83%E9%9A%8F%E6%9C%BA%E6%B3%95"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 加权随机法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-%E6%9C%80%E5%B0%8F%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%B3%95"><span class="nav-number">2.6.</span> <span class="nav-text">2.6 最小连接数法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">3. 算法实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E8%BD%AE%E8%AF%A2%E7%AE%97%E6%B3%95"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 轮询算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E9%9A%8F%E6%9C%BA%E7%AE%97%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 随机算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E5%B8%A6%E6%9D%83%E9%87%8D%E9%83%BD%E8%BD%AE%E8%AF%A2%E7%AE%97%E6%B3%95"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 带权重都轮询算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E5%B8%A6%E6%9D%83%E9%87%8D%E9%83%BD%E9%9A%8F%E6%9C%BA%E7%AE%97%E6%B3%95"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 带权重都随机算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-%E6%BA%90%E5%9C%B0%E5%9D%80hash%E7%AE%97%E6%B3%95"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 源地址hash算法</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2021 PLAYAROUND All Rights Reserved.
+          
+            <span id="busuanzi_container_site_uv">
+              本站访客数<span id="busuanzi_value_site_uv"></span>人次  
+              本站总访问量<span id="busuanzi_value_site_pv"></span>次
+            </span>
+          
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hiero" target="_blank">hiero</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var contentdiv = document.getElementById("content");
+
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+</script>
+
+<!-- Custome JS -->
+
+<script src="/js/my.js"></script>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css">
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="https://dnqof95d40fo6.cloudfront.net/atw7f8.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>
