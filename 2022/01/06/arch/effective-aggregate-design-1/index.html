@@ -34,7 +34,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="http://playaround88.github.io/img/zfb.jpg">
 <meta property="article:published_time" content="2022-01-06T06:50:21.000Z">
-<meta property="article:modified_time" content="2022-01-17T03:53:59.944Z">
+<meta property="article:modified_time" content="2022-01-19T12:11:39.381Z">
 <meta property="article:author" content="wutb">
 <meta property="article:tag" content="ddd">
 <meta name="twitter:card" content="summary">
@@ -278,7 +278,7 @@ From these they envisioned a model, and made their first attempt at a design. Le
 <li>一个计划的需求积压项可能被规划到了版本。</li>
 <li>一个计划的需求积压项可能被提交到一个冲刺。<br>基于上述他们预想了一个模型，并做了他们的首次设计尝试。让我们看看它的进展如何。</li>
 </ul>
-<h2 id="初次尝试：大集群聚合-First-Attempt-Large-Cluster-Aggregate"><a href="#初次尝试：大集群聚合-First-Attempt-Large-Cluster-Aggregate" class="headerlink" title="初次尝试：大集群聚合(First Attempt: Large-Cluster Aggregate)"></a>初次尝试：大集群聚合(First Attempt: Large-Cluster Aggregate)</h2><p class="en">
+<h3 id="初次尝试：大集群聚合-First-Attempt-Large-Cluster-Aggregate"><a href="#初次尝试：大集群聚合-First-Attempt-Large-Cluster-Aggregate" class="headerlink" title="初次尝试：大集群聚合(First Attempt: Large-Cluster Aggregate)"></a>初次尝试：大集群聚合(First Attempt: Large-Cluster Aggregate)</h3><p class="en">
 The team put a lot of weight on the words “Products have” in the first statement. It sounded to some like composition, that objects needed to be interconnected like an object graph. Maintaining these object life cycles together was considered very important. So, the developers added the following consistency rules into the specification:
 <pre>
   • If a backlog item is committed to a sprint, we must not allow it to be removed from the system.
@@ -337,7 +337,7 @@ Nothing about planning a new backlog item should logically interfere with schedu
 </p>
 
 <p>计划一个新的积压项(backlog item)与规划一个新版本没有任何相抵触！为什么Joe提交失败了？这个问题的核心，大聚合对象在思想中被设计了错误的一致性，而不是真正的业务规则。这些错误的一致性是开发者假设的人为的约束。团队有其他的方式避免不适当的删除而不必任意的约束。除造成事务问题之外，这样的设计同时有性能和扩展性的弊端。</p>
-<h2 id="二次尝试：多聚合-Second-Attempt-Multiple-Aggregates"><a href="#二次尝试：多聚合-Second-Attempt-Multiple-Aggregates" class="headerlink" title="二次尝试：多聚合(Second Attempt: Multiple Aggregates)"></a>二次尝试：多聚合(Second Attempt: Multiple Aggregates)</h2><p class="en">
+<h3 id="二次尝试：多聚合-Second-Attempt-Multiple-Aggregates"><a href="#二次尝试：多聚合-Second-Attempt-Multiple-Aggregates" class="headerlink" title="二次尝试：多聚合(Second Attempt: Multiple Aggregates)"></a>二次尝试：多聚合(Second Attempt: Multiple Aggregates)</h3><p class="en">
 Now consider an alternative model as shown in Figure 2, in which we have four distinct aggregates. Each of the dependencies is associated by inference using a common ProductId, which is the identity of Product considered the parent of the other three.
 </p>
 那么现在考虑一个下图2展示的替代模型，如图我们有四个独立的聚合。每一个独立依赖是一个对通用的ProductId的引用，它是产品(Product)的唯一标识被认为是tree的其他节点的父节点。
@@ -474,7 +474,7 @@ Smaller aggregates not only perform and scale better, they are also biased towar
 </p>
 
 <p>更小的聚合不仅仅性能和扩展性更好，它们也更有助于事务成功，意味着提交是冲突拒绝更少。这使得系统更有用。你的领域通常不会有真实的不变性约束，强制你进入大面积的组合设计场景。因此，就明智的限制聚合的大小。当你偶尔面临一个真实的约束规则，然后添加了其他的一些实体，或者也可能是需要集合，但是请继续让自己总体上保持尽可能的小。</p>
-<h2 id="不要相信任何用例-Don’t-Trust-Every-Use-Case"><a href="#不要相信任何用例-Don’t-Trust-Every-Use-Case" class="headerlink" title="不要相信任何用例(Don’t Trust Every Use Case)"></a>不要相信任何用例(Don’t Trust Every Use Case)</h2><p class="en">
+<h3 id="不要相信所有用例-Don’t-Trust-Every-Use-Case"><a href="#不要相信所有用例-Don’t-Trust-Every-Use-Case" class="headerlink" title="不要相信所有用例(Don’t Trust Every Use Case)"></a>不要相信所有用例(Don’t Trust Every Use Case)</h3><p class="en">
 Business analysts play an important role in delivering use case specifications. Since much work goes into a large and detailed specification, it will affect many of our design decisions. Yet, we mustn't forget that use cases derived in this way does not carry the perspective of the domain experts and developers of our close-knit modeling team. We still must reconcile each use case with our current model and design, including our decisions about aggregates. A common issue that arises is a particular use case that calls for the modification of multiple aggregate instances. In such a case we must determine whether the specified large user goal is spread across multiple persistence transactions, or if it occurs within just one. If it is the latter, it pays to be skeptical. No matter how well it is written, such a use case may not accurately reflect the true aggregates of our model.
 </p>
 
@@ -506,12 +506,19 @@ Eric Evans and Paul Rayner did several detailed reviews of this essay. I also re
 <h2 id="引用-References"><a href="#引用-References" class="headerlink" title="引用(References)"></a>引用(References)</h2><p class="ori">
 [CQS] Martin Fowler explains Bertrand Meyer's Command-Query Separation: http://martinfowler.com/bliki/ CommandQuerySeparation.html <br />
 [DDD] Eric Evans; Domain-Driven Design—Tackling Complexity in the Heart of Software; 2003, Addison- Wesley, ISBN 0-321-12521-5. <br />
-[Hedhman] Niclas Hedhman; http://www.jroller.com/niclas/ [Qi4j] Rickard Öberg, Niclas Hedhman; Qi4j framework;
-http://qi4j.org/ 
+[Hedhman] Niclas Hedhman; http://www.jroller.com/niclas/  <br />
+
+<p>[Qi4j] Rickard Öberg, Niclas Hedhman; Qi4j framework; <a target="_blank" rel="noopener" href="http://qi4j.org/">http://qi4j.org/</a> </p>
 </p>
 
 <h2 id="个人经历-Biography"><a href="#个人经历-Biography" class="headerlink" title="个人经历(Biography)"></a>个人经历(Biography)</h2><p class="ori">
-Vaughn Vernon is a veteran consultant, providing architecture, development, mentoring, and training services. This three-part essay is based on his upcoming book on implementing domain-driven design. His QCon San Francisco 2010 presentation on context mapping is available on the DDD Community site: http://dddcommunity.org/library/vernon_2010. Vaughn blogs here: http://vaughnvernon.co/, and you can reach him by email here: vvernon@shiftmethod.com
+Vaughn Vernon is a veteran consultant, providing architecture, development, mentoring, and training services. <br />
+This three-part essay is based on his upcoming book on implementing domain-driven design. <br />
+His QCon San Francisco 2010 presentation on context mapping is available on the DDD Community site: <br />
+http://dddcommunity.org/library/vernon_2010.  <br />
+Vaughn blogs here: http://vaughnvernon.co/; <br />
+you can reach him by email here: vvernon@shiftmethod.com;  <br />
+and follow him on Twitter here: @VaughnVernon 
 </p>
 
       
@@ -599,7 +606,7 @@ var a = new Donate({
     <div id="toc" class="toc-article" style="overflow-y: scroll; max-width: 28%;">
     <strong class="toc-title">Contents</strong>
     
-      <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E7%AE%A1%E7%90%86%E5%BA%94%E7%94%A8-Designing-a-Scrum-Management-Application"><span class="nav-number">1.</span> <span class="nav-text">设计一个敏捷开发管理应用(Designing a Scrum Management Application)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E6%AC%A1%E5%B0%9D%E8%AF%95%EF%BC%9A%E5%A4%A7%E9%9B%86%E7%BE%A4%E8%81%9A%E5%90%88-First-Attempt-Large-Cluster-Aggregate"><span class="nav-number">2.</span> <span class="nav-text">初次尝试：大集群聚合(First Attempt: Large-Cluster Aggregate)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E6%AC%A1%E5%B0%9D%E8%AF%95%EF%BC%9A%E5%A4%9A%E8%81%9A%E5%90%88-Second-Attempt-Multiple-Aggregates"><span class="nav-number">3.</span> <span class="nav-text">二次尝试：多聚合(Second Attempt: Multiple Aggregates)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%84%E5%88%99%EF%BC%9A%E4%B8%BA%E7%9C%9F%E5%AE%9E%E7%9A%84%E4%B8%8D%E5%8F%98%E6%80%A7%E5%9C%A8%E4%B8%80%E8%87%B4%E6%80%A7%E8%BE%B9%E7%95%8C%E5%86%85%E5%BB%BA%E6%A8%A1-Rule-Model-True-Invariants-In-Consistency-Boundaries"><span class="nav-number">4.</span> <span class="nav-text">规则：为真实的不变性在一致性边界内建模(Rule: Model True Invariants In Consistency Boundaries)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%84%E5%88%99-%E8%AE%BE%E8%AE%A1%E5%B0%8F%E8%81%9A%E5%90%88-Rule-Design-Small-Aggregates"><span class="nav-number">5.</span> <span class="nav-text">规则: 设计小聚合(Rule: Design Small Aggregates)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E8%A6%81%E7%9B%B8%E4%BF%A1%E4%BB%BB%E4%BD%95%E7%94%A8%E4%BE%8B-Don%E2%80%99t-Trust-Every-Use-Case"><span class="nav-number">6.</span> <span class="nav-text">不要相信任何用例(Don’t Trust Every Use Case)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%E9%A2%84%E5%91%8A-Coming-in-Part-II"><span class="nav-number">7.</span> <span class="nav-text">第二部分预告(Coming in Part II)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%B4%E8%B0%A2-Acknowledgments"><span class="nav-number">8.</span> <span class="nav-text">致谢(Acknowledgments)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E7%94%A8-References"><span class="nav-number">9.</span> <span class="nav-text">引用(References)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AA%E4%BA%BA%E7%BB%8F%E5%8E%86-Biography"><span class="nav-number">10.</span> <span class="nav-text">个人经历(Biography)</span></a></li></ol>
+      <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E7%AE%A1%E7%90%86%E5%BA%94%E7%94%A8-Designing-a-Scrum-Management-Application"><span class="nav-number">1.</span> <span class="nav-text">设计一个敏捷开发管理应用(Designing a Scrum Management Application)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E6%AC%A1%E5%B0%9D%E8%AF%95%EF%BC%9A%E5%A4%A7%E9%9B%86%E7%BE%A4%E8%81%9A%E5%90%88-First-Attempt-Large-Cluster-Aggregate"><span class="nav-number">1.1.</span> <span class="nav-text">初次尝试：大集群聚合(First Attempt: Large-Cluster Aggregate)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E6%AC%A1%E5%B0%9D%E8%AF%95%EF%BC%9A%E5%A4%9A%E8%81%9A%E5%90%88-Second-Attempt-Multiple-Aggregates"><span class="nav-number">1.2.</span> <span class="nav-text">二次尝试：多聚合(Second Attempt: Multiple Aggregates)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%84%E5%88%99%EF%BC%9A%E4%B8%BA%E7%9C%9F%E5%AE%9E%E7%9A%84%E4%B8%8D%E5%8F%98%E6%80%A7%E5%9C%A8%E4%B8%80%E8%87%B4%E6%80%A7%E8%BE%B9%E7%95%8C%E5%86%85%E5%BB%BA%E6%A8%A1-Rule-Model-True-Invariants-In-Consistency-Boundaries"><span class="nav-number">2.</span> <span class="nav-text">规则：为真实的不变性在一致性边界内建模(Rule: Model True Invariants In Consistency Boundaries)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%84%E5%88%99-%E8%AE%BE%E8%AE%A1%E5%B0%8F%E8%81%9A%E5%90%88-Rule-Design-Small-Aggregates"><span class="nav-number">3.</span> <span class="nav-text">规则: 设计小聚合(Rule: Design Small Aggregates)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E8%A6%81%E7%9B%B8%E4%BF%A1%E6%89%80%E6%9C%89%E7%94%A8%E4%BE%8B-Don%E2%80%99t-Trust-Every-Use-Case"><span class="nav-number">3.1.</span> <span class="nav-text">不要相信所有用例(Don’t Trust Every Use Case)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%E9%A2%84%E5%91%8A-Coming-in-Part-II"><span class="nav-number">4.</span> <span class="nav-text">第二部分预告(Coming in Part II)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%B4%E8%B0%A2-Acknowledgments"><span class="nav-number">5.</span> <span class="nav-text">致谢(Acknowledgments)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E7%94%A8-References"><span class="nav-number">6.</span> <span class="nav-text">引用(References)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AA%E4%BA%BA%E7%BB%8F%E5%8E%86-Biography"><span class="nav-number">7.</span> <span class="nav-text">个人经历(Biography)</span></a></li></ol>
     
     </div>
   </aside>

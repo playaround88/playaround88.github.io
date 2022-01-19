@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <!-- PACE Progress Bar START -->
+  
+    
+<script src="https://raw.githubusercontent.com/HubSpot/pace/v1.0.2/pace.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://github.com/HubSpot/pace/raw/master/themes/orange/pace-theme-flash.css">
+
+  
+  
+
+  <!-- PACE Progress Bar START -->
+
+  
+  <title>【译】ddd有效聚合设计，第三部分：通过发现深入理解 | PLAYAROUND</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ddd" />
+  
+  
+  
+  
+  <meta name="description" content="true">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【译】DDD有效聚合设计，第三部分：通过发现深入理解">
+<meta property="og:url" content="http://playaround88.github.io/2022/01/17/arch/effective-aggregate-design-3/index.html">
+<meta property="og:site_name" content="PLAYAROUND">
+<meta property="og:description" content="true">
+<meta property="og:locale">
+<meta property="og:image" content="http://playaround88.github.io/img/zfb.jpg">
+<meta property="article:published_time" content="2022-01-17T04:01:54.000Z">
+<meta property="article:modified_time" content="2022-01-19T10:00:19.599Z">
+<meta property="article:author" content="wutb">
+<meta property="article:tag" content="ddd">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://playaround88.github.io/img/zfb.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="PLAYAROUND" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="https://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" >
+  <link rel="stylesheet" href="/css/hiero.css" >
+  <link rel="stylesheet" href="/css/glyphs.css" >
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+  <!-- Custom CSS -->
+  
+<link rel="stylesheet" href="/css/my.css">
+
+  <!-- Google Adsense -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+      (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-0123456789ABCDEF",
+          enable_page_level_ads: true
+      });
+  </script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<script>
+var themeMenus = {};
+
+  themeMenus["/"] = "Home"; 
+
+  themeMenus["/archives"] = "Archives"; 
+
+  themeMenus["/categories"] = "Categories"; 
+
+  themeMenus["/tags"] = "Tags"; 
+
+  themeMenus["/about"] = "About"; 
+
+</script>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  <header id="allheader" class="site-header" role="banner">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="PLAYAROUND" rel="home"> PLAYAROUND </a>
+            
+          </h1>
+
+          
+            <div class="site-description">Put into practice, u are changing without realizing it! </div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+            <div class="clearfix sf-menu">
+
+              <ul id="main-nav" class="nmenu sf-js-enabled">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/categories">Categories</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="originBgDiv" style="background: #fff; width: 100%;">
+
+      <div style="max-height:600px; overflow: hidden;  display: flex; display: -webkit-flex; align-items: center;">
+        <img id="originBg" width="100%" alt="" src="">
+      </div>
+
+  </div>
+
+  <script>
+  function setAboutIMG(){
+      var imgUrls = "css/images/pose.jpg,https://source.unsplash.com/collection/954550/1920x1080".split(",");
+      var random = Math.floor((Math.random() * imgUrls.length ));
+      if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+        document.getElementById("originBg").src=imgUrls[random];
+      } else {
+        document.getElementById("originBg").src='/' + imgUrls[random];
+      }
+  }
+  bgDiv=document.getElementById("originBgDiv");
+  if(location.pathname.match('about')){
+    setAboutIMG();
+    bgDiv.style.display='block';
+  }else{
+    bgDiv.style.display='none';
+  }
+  </script>
+
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-arch/effective-aggregate-design-3" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/zfb.jpg" rel="gallery_ckyli8w750000ujtca7n08cli">
+        <img src="/img/zfb.jpg" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      【译】DDD有效聚合设计，第三部分：通过发现深入理解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	Posted on <a href="/2022/01/17/arch/effective-aggregate-design-3/" class="article-date">
+	  <time datetime="2022-01-17T04:01:54.000Z" itemprop="datePublished">January 17, 2022</time>
+	</a>
+
+      
+	<span id="busuanzi_container_page_pv">
+	  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+	</span>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="en">
+Effective Aggregate Design  
+Part III: Gaining Insight Through Discovery
+</p>
+
+<p>DDD有效聚合设计，第三部分：通过发现深入理解</p>
+<p class="en">
+Part II discussed how [DDD] aggregates reference other aggregates, and how to leverage eventual consistency to keep separate aggregate instances in harmony. In Part III we'll see how adhering to the rules of aggregate affects the design of a Scrum model. We'll see how the project team rethinks their design again, applying new-found techniques. That effort leads to the discovery of new insights into the model. Their various ideas are tried and then superseded.
+</p>
+
+<p>第二部分讨论了[DDD]聚合如何引用其他聚合，以及如何借助最终一致性来保持聚合实例的和谐分离。在第三部分我们将会看到遵循聚合规则会如何影响我们的Scrum的模型设计。我们将会看到项目团队如何重新思考他们的设计，应用新学到的技术。这些努力引导我们发现对模型的深入理解。有很多的想法被尝试和替代。</p>
+<h2 id="再一次重新思考设计-Rethinking-the-Design-Again"><a href="#再一次重新思考设计-Rethinking-the-Design-Again" class="headerlink" title="再一次重新思考设计(Rethinking the Design, Again)"></a>再一次重新思考设计(Rethinking the Design, Again)</h2><p class="en">
+After the refactoring iteration that broke up the large cluster Product, the BacklogItem now stands alone as its own aggregate. It reflects the model presented in Figure 7. The team composed a collection of Task instances inside the BacklogItem aggregate. Each BacklogItem has a globally unique identity, its BacklogItemId. All associations to other aggregates are inferred through identities. That means its parent Product, the Release it is scheduled within, and the Sprint to which it is committed, are referenced by identities. It seems fairly small. With the team now jazzed about designing small aggregates, could they possibly overdo it in that direction?
+</p>
+
+<p>在打破大聚类聚合的重构迭代后，积压项(BacklogItem)现在在它自己的聚合中保持独立。它相应的模型显示在图示7中。团队在积压项(BacklogItem)的聚合中组合了一个集合的任务(Task)实例。每一个积压项(BacklogItem)都有一个全局唯一的标识，即BacklogItemId。所有到其他聚合的关联都通过标识推断。这意味着它的父产品(Product), 它规划到的版本(Release)，以及它提交到的冲刺(Sprint)，都通过标识引用。它看起来相当的小。如果团队现在很喜欢设计小的聚合，那么会不会可能在这个方向上过分运用？</p>
+<p><img src="/img/ddd-ead/figure-7.png" alt=""></p>
+<p class="en">
+Despite the good feeling coming out of that previous iteration, there is still some concern. For example, the story attribute allows for a good deal of text. Teams developing agile stories won't write lengthy prose. Even so, there is an optional editor component that supports writing rich use case definitions. Those could be many thousands of bytes. It's worth considering the possible overhead.
+</p>
+
+<p>尽管从上面的迭代中大家感觉良好，但这里还是有一些担心。例如，store属性允许处理好文本。开发敏捷故事的团队不想写长长的散文。甚至，这里有一个优化的编辑器组件来支撑编写富用例定义。这可能是几千个字节。这值得考虑可能的付出。</p>
+<p class="en">
+Given this potential overhead and the errors already made in designing the large cluster Product of Figures 1 and 3 in Part I, the team is now on a mission to reduce the size of every aggregate in the bounded context. Crucial questions arise. Is there a true invariant between BacklogItem and Task that this relationship must maintain? Or is this yet another case where the association can be further broken apart, with two separate aggregates being safely formed? What is the total cost of keeping the design as it is?
+</p>
+
+<p>潜在的付出和错误已经在大聚类聚合的产品中给出(第一部分Figures 1 and 3)，团队现在的任务是在界限上下文中降低每一个聚合的大小。关键问题出现。在BacklogItem和Task之间的关系是否存在必须维护的真实不变性？或者还有没有其他可能进一步打破这种关联关系的例子，使用两个独立的聚合是否是安全的形式？保持它的设计会有哪些开销？</p>
+<p class="en">
+A key to making a proper determination lies in the ubiquitous language. Here is where an invariant is stated: </br>
+• When progress is made on a backlog item task, the team member will estimate task hours remaining. </br>
+• When a team member estimates that zero hours are remaining on a specific task, the backlog item checks all tasks for any remaining hours. If no hours remain on any tasks, the backlog item status is automatically changed to done. </br>
+• When a team member estimates that one or more hours are remaining on a specific task and the backlog item's status is already done, the status is automatically regressed.
+</p>
+
+<p>作出适当决定的钥匙躺着统一语言中。下面是一些不变性的陈述：</p>
+<ul>
+<li>当处理一个积压项任务(backlog item task)，团队成员将会估计任务剩余时长。</li>
+<li>当团队成员评估一个特定的任务没有剩余时长时，积压项检查所有的任务是否还存在剩余时间。如果所有任务都没有剩余时间，积压项状态自动变成完成。</li>
+<li>当团队成员评估发现特定任务存在一些剩余时长，并且积压项的状态已经变成了完成时，状态自动退回。</li>
+</ul>
+<p class="en">
+This sure seems like a true invariant. The backlog item's correct status is automatically adjusted and completely dependent on the total number of hours remaining on all its tasks. If the total number of task hours and the backlog item status are to remain consistent, it seems as if Figure 7 does stipulate the correct aggregate consistency boundary. However, the team should still determine what the current cluster could cost in terms of performance and scalability. That would be weighed against what they might save if the backlog item status could be eventually consistent with the total task hours remaining.
+</p>
+
+<p>这当然看起来像是真实不变性。积压项(backlog item)的正确状态根据它的所有任务剩余时长自动调整并完成。如果所有任务时长和积压项(backlog item)状态保持一致性，好像图示7做了正确的聚合一致性边界的规定。然而，团队应当继续测定当前的聚类在性能和扩展性方面的代价。这需要与保持积压项(backlog item)状态和总剩余时长最终一致性所能带来的好处做出衡量。</p>
+<p class="en">
+Some will see this as a classic opportunity to use eventual consistency, but we won't jump to that conclusion just yet. Let's analyze a transactional consistency approach, then investigate what could be accomplished using eventual consistency. We can then each draw our own conclusion as to which approach is preferred.
+</p>
+
+<p>有些人会把这看做是经典/传统的使用最终一致性的时机，但我们不会直接跳到结论。让我们分析一个事务一致性方式，然后研究使用最终一致性可以达到怎样的效果。然后我们可以分别描述结论，哪种方式是完美的。</p>
+<h3 id="评估聚合代价-Estimating-Aggregate-Cost"><a href="#评估聚合代价-Estimating-Aggregate-Cost" class="headerlink" title="评估聚合代价(Estimating Aggregate Cost)"></a>评估聚合代价(Estimating Aggregate Cost)</h3><p class="en">
+As Figure 7 shows, each Task holds a collection of a series of EstimationLogEntry instances. These logs model the specific occasions when a team member enters a new estimation of hours remaining. In practical terms, how many Task elements will each BacklogItem hold, and how many EstimationLogEntry elements will a given Task hold? It's hard to say exactly. It's largely a measure of how complex any one task is and how long a sprint lasts. But some back-of-the-envelope calculations (BOTE) might help [Pearls].
+</p>
+
+<p>如图示7展示的，每一个任务(Task)持有一个集合的一些列的预估日志实体实例(EstimationLogEntry)。这些日志为当一个团队成员进入一个新的评估剩余时长的特定场合建模。在实践中，每个积压项(BacklogItem)将会持有多少任务(Task)，一个给定的任务(Task)又会持有多少预估日志实体元素？这很难精确预估。这是任何一个任务有多复杂和一个冲刺持续多长时间的主要衡量。但是一些不需要复杂计算(BOTE)的任务可能有帮助[Pearls]。</p>
+<p class="en">
+Task hours are usually re-estimated each day after a team member works on a given task. Let's say that most sprints are either two or three weeks in length. There will be longer sprints, but a two-to-three-week timespan is common enough. So let's select a number of days somewhere in between 10 days and 15 days. Without being too precise, 12 days works well since there may actually be more two- week than three-week sprints.
+</p>
+
+
+
+<p class="en">
+Next consider the number of hours assigned to each task. Remembering that since tasks must be broken down into manageable units, we generally use a number of hours between 4 and 16. Normally if a task exceeds a 12-hour estimate, Scrum experts suggest breaking it down further. But using 12 hours as a first test makes it easier to simulate work evenly. We can say that tasks are worked on for one hour each of the 12 days of the sprint. Doing so favors more complex tasks. So we'll figure 12 re-estimations per task, assuming that each task starts out with 12 hours allocated to it.
+</p>
+
+
+
+<p class="en">
+The question remains: How many tasks would be required per backlog item? That too is a difficult question to answer. What if we thought in terms of there being two or three tasks required per layer or hexagonal port-adapter [Cockburn] for a given feature slice? For example, we might count three for user interface layer, two for the ap- plication layer, three for the domain layer, and three for the infrastructure layer. That would bring us to 11 total tasks. It might be just right or a bit slim, but we've already erred on the side of numerous task estimations. Let's bump it up to 12 tasks per backlog item to be more liberal. With that we are allowing for 12 tasks, each with 12 estimation logs, or 144 total collected objects per backlog item. While this may be more than the norm, it gives us a chunky BOTE calculation to work with.
+</p>
+
+
+
+<p class="en">
+There is another variable to be considered. If Scrum expert advice to define smaller tasks is commonly followed, it would change things somewhat. Doubling the number of tasks (24) and halving the number of estimation log entries (6) would still produce 144 total objects. However, it would cause more tasks to be loaded (24 rather than 12) during all estimation requests, consuming more memory on each. The team will try various combinations to see if there was any significant impact on their performance tests. But to start they will use 12 tasks of 12 hours each.
+</p>
+
+<h3 id="普通使用场景-Common-Usage-Scenarios"><a href="#普通使用场景-Common-Usage-Scenarios" class="headerlink" title="普通使用场景(Common Usage Scenarios)"></a>普通使用场景(Common Usage Scenarios)</h3><p class="en">
+Now it's important to consider common usage scenarios. How often will one user request need to load all 144 objects into memory at once? Would that ever happen? It seems not, but they need to check. If not, what's the likely high end count of objects? Also, will there typically be multi-cli- ent usage that causes concurrency contention on backlog items? Let's see.
+</p>
+
+
+
+<p class="en">
+The following scenarios are based on the use of Hibernate for persistence. Also, each entity type has its own optimist- ic concurrency version attribute. This is workable because the changing status invariant is managed on the Backlog- Item root entity. When the status is automatically altered (to done or back to committed) the root's version is bumped. Thus, changes to tasks can happen independently of each other and without impacting the root each time one is modified, unless it results in a status change. (The fol- lowing analysis could need to be revisited if using, for ex- ample, document-based storage, since the root is effect- ively modified every time a collected part is modified.)
+</p>
+
+
+
+<p class="en">
+When a backlog item is first created, there are zero con- tained tasks. Normally it is not until sprint planning that tasks are defined. During that meeting tasks are identified by the team. As each one is called out, a team member adds it to the corresponding backlog item. There is no need for two team members to contend with each other for the ag- gregate, as if racing to see who can enter new tasks the quickest. That would cause collision and one of the two re- quests would fail (for the same reason adding various parts to Product simultaneously previously failed). However, the two team members would probably soon figure out how counterproductive their redundant work is.
+</p>
+
+
+
+
+<p class="en">
+If the developers learned that multiple users do indeed regularly want to add tasks together, it would change the analysis significantly. That understanding could immedi- ately tip the scales in favor of breaking BacklogItem and Task into two separate aggregates. On the other hand, this could also be a perfect time to tune the Hibernate map- ping by setting optimistic-lock option to false. Allowing tasks to grow simultaneously could make sense in this case, especially if they don't pose performance and scalability issues.
+</p>
+
+
+
+<p class="en">
+If tasks are at first estimated at zero hours and later updated to an accurate estimate, we still don't tend to experience concurrency contention, although this would add one addi- tional estimation log entry, pushing our BOTE to 13 total. Simultaneous use here does not change the backlog item status. Again, it only advances to done by going from greater-than zero to zero hours, or regresses to committed if already done and hours are changed from zero to one or more—two uncommon events.
+</p>
+
+
+
+
+<p class="en">
+Will daily estimations cause problems? On day one of the sprint there are usually zero estimation logs on a given task of a backlog item. At the end of day one, each volunteer team member working on a task reduces the estimated hours by one. This adds a new estimation log to each task, but the backlog item's status remains unaffected. There is never contention on a task because just one team member adjusts its hours. It's not until day 12 that we reach the point of status transition. Still, as each of any 11 tasks are reduced to zero hours, the backlog item's status is not altered. It's only the very last estimation, the 144th on the 12th task, that causes automatic status transition to the done state.
+</p>
+
+
+
+<p class="en">
+This analysis has led the team to an important realization. Even if they alter the usage scenarios, accelerating task completion by double (six days), or even mixing it up com- pletely, it doesn't change anything. It's always the final es- timation that transitions the status, which modifies the root. This seems like a safe design, although memory overhead is still in question.
+</p>
+
+
+<h3 id="内存消耗-Memory-Consumption"><a href="#内存消耗-Memory-Consumption" class="headerlink" title="内存消耗(Memory Consumption)"></a>内存消耗(Memory Consumption)</h3><p class="en">
+Now to address the memory consumption. Important here is that estimations are logged by date as value objects. If a team member re-estimates any number of times on a single day, only the most recent estimation is retained. The latest value of the same date replaces the previous one in the col- lection. At this point there's no requirement to track task es- timation mistakes. There is the assumption that a task will never have more estimation log entries than the number of days the sprint is in progress. That assumption changes if tasks were defined one or more days before the sprint plan- ning meeting, and hours were re-estimated on any of those earlier days. There would be one extra log for each day that occurred.
+</p>
+
+
+
+
+<p class="en">
+What about the total number of tasks and estimations in memory for each re-estimation? When using lazy loading for the tasks and estimation logs, we would have as many as 12 plus 12 collected objects in memory at one time per request. This is because all 12 tasks would be loaded when accessing that collection. To add the latest estimation log entry to one of those tasks, we'd have to load the collection of estimation log entries. That would be up to another 12 objects. In the end the aggregate design requires one back- log item, 12 tasks, and 12 log entries, or 25 objects maxim- um total. That's not very many; it's a small aggregate. An- other factor is that the higher end of objects (e.g. 25) is not reached until the last day of the sprint. During much of the sprint the aggregate is even smaller.
+</p>
+
+
+
+
+<p class="en">
+Will this design cause performance problems because of lazy loads? Possibly, because it actually requires two lazy loads, one for the tasks and one for the estimation log entries for one of the tasks. The team will have to test to investigate the possible overhead of the multiple fetches.
+</p>
+
+
+
+
+<p class="en">
+There's another factor. Scrum enables teams to experiment in order to identity the right planning model for their prac- tices. As explained in [Story Points], experienced teams with a well-known velocity can estimate using story points rather than task hours. As they define each task, they can assign just one hour to each task. During the sprint they will re-estimate only once per task, changing one hour to zero when the task is completed. As it pertains to aggreg- ate design, using story points reduces the total number of estimation logs per task to just one, and almost eliminates memory overhead. Later on, ProjectOvation developers will be able to analytically determine (on average) how many actual tasks and estimation log entries exist per back- log item by examining real production data.
+</p>
+
+
+
+
+<p class="en">
+The forgoing analysis was enough to motivate the team to test against their BOTE calculations. After inconclusive results, however, they decide that there were still too many variables to be confident that this design deals well with their concerns. There were enough unknowns to consider an alternative design.
+</p>
+
+
+<h3 id="探索另一种替换设计-Exploring-Another-Alternative-Design"><a href="#探索另一种替换设计-Exploring-Another-Alternative-Design" class="headerlink" title="探索另一种替换设计(Exploring Another Alternative Design)"></a>探索另一种替换设计(Exploring Another Alternative Design)</h3><p class="en">
+To be thorough, the team wants to think through what they would have to do to make Task an independent aggregate, and if that would actually work to their benefit. What they envision is seen in Figure 8. Doing this would reduce part composition overhead by 12 objects and reduce lazy load overhead. In fact, this design gives them the option to eagerly load estimation log entries in all cases if that would perform best.
+</p>
+
+
+<p><img src="/img/figure-8.png" alt=""></p>
+<p class="en">
+The developers agree not to modify separate aggregates, both the Task and the BacklogItem, in the same trans- action. They must determine if they can perform a neces- sary automatic status change within an acceptable time frame. They'd be weakening the invariant's consistency since the status can't be consistent by transaction. Would that be acceptable? They discuss the matter with the do- main experts and learn that some delay between the final zero-hour estimate and the status being set to done, and visa versa, would be acceptable.
+</p>
+
+
+
+<h3 id="实现最终一致性-Implementing-Eventual-Consistency"><a href="#实现最终一致性-Implementing-Eventual-Consistency" class="headerlink" title="实现最终一致性(Implementing Eventual Consistency)"></a>实现最终一致性(Implementing Eventual Consistency)</h3><p class="en">
+Here is how it could work. When a Task processes an estimateHoursRemaining() command it publishes a corresponding domain event. It does that already, but the team would now leverage the event to achieve eventual consistency. The event is modeled with the following properties:
+</p>
+
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TaskHoursRemainingEstimated</span> <span class="keyword">implements</span> <span class="title">DomainEvent</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Date occurredOn;</span><br><span class="line">    <span class="keyword">private</span> TenantId tenantId;</span><br><span class="line">    <span class="keyword">private</span> BacklogItemId backlogItemId; </span><br><span class="line">    <span class="keyword">private</span> TaskId taskId;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> hoursRemaining;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p class="en">
+A specialized subscriber would now listen for these and delegate to a domain service to coordinate the consistency processing. The service would: <br/>
+• Use the BacklogItemRepository to retrieve the identified BacklogItem.<br/>
+• Use the TaskRepository to retrieve all Task instances associated with the identified BacklogItem.<br/>
+• Execute the BacklogItem command named estimateTaskHoursRemaining() passing the domain event's hoursRemaining and the retrieved Task instances. The BacklogItem may transition its status depending on parameter
+</p>
+
+
+
+
+<p class="en">
+The team should find a way to optimize this. The three-step design requires all Task instances to be loaded every time a re-estimation occurs. When using our BOTE and advan- cing continuously toward done, 143 out of 144 times that's unnecessary. This could be optimized this pretty easily. In- stead of using the repository to get all Task instances, they could simply ask it for the sum of all Task hours as calculated by the database:
+</p>
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TaskRepositoryImpl</span> <span class="keyword">implements</span> <span class="title">TaskRepository</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">totalBacklogItemTaskHoursRemaining</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">            TenantId aTenantId, BacklogItemId aBacklogItemId)</span> </span>&#123;</span><br><span class="line">        Query query = session.createQuery(</span><br><span class="line">                <span class="string">&quot;select sum(task.hoursRemaining) from Task task &quot;</span> + <span class="string">&quot;where task.tenantId = ? and &quot;</span></span><br><span class="line">                + <span class="string">&quot;task.backlogItemId = ?&quot;</span>);</span><br><span class="line">        ... </span><br><span class="line">    &#125;</span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
+
+<p class="en">
+Eventual consistency complicates the user interface a bit. Unless the status transition can be achieved within a few hundred milliseconds, how would the user interface display the new state? Should they place business logic in the view to determine the current status? That would constitute a smart UI anti-pattern. Perhaps the view would just display he stale status and allow users to deal with the visual in- consistency. That could easily be perceived as a bug, or at least be pretty annoying.
+</p>
+
+
+
+
+<p class="en">
+The view could use a background Ajax polling request, but that could be quite inefficient. Since the view component could not easily determine exactly when checking for a status update is necessary, most Ajax pings would be unne- cessary. Using our BOTE numbers, 143 of 144 re-estima- tions would not cause the status update, which is a lot of re- dundant requests on the web tier. With the right server-side support the clients could instead depend on Comet (a.k.a. Ajax Push). Although a nice challenge, that introduces a completely new technology that the team has no experience using.
+</p>
+
+
+
+
+<p class="en">
+On the other hand, perhaps the best solution is the simplest. They could opt to place a visual cue on the screen that in- forms the user that the current status is uncertain. The view could suggest a time frame for checking back or refreshing. Alternatively, the changed status will probably show on the next rendered view. That's safe. The team would need to run some user acceptance tests, but it looks hopeful.
+</p>
+
+
+<h3 id="这是团队成员的工作吗？-Is-It-the-Team-Member’s-Job"><a href="#这是团队成员的工作吗？-Is-It-the-Team-Member’s-Job" class="headerlink" title="这是团队成员的工作吗？(Is It the Team Member’s Job?)"></a>这是团队成员的工作吗？(Is It the Team Member’s Job?)</h3><p class="en">
+One important question has thus far been completely over- looked. Whose job is it to bring a backlog item's status into consistency with all remaining task hours? Does a team member using Scrum care if the parent backlog item's status transitions to done just as they set the last task's hours to zero? Will they always know they are working with the last task that has remaining hours? Perhaps they will and perhaps it is the responsibility of each team mem- ber to bring each backlog item to official completion.
+</p>
+
+
+
+<p class="en">
+On the other hand, what if there is ever another project stakeholder involved? For example, the product owner or some other person may desire to check the candidate back- log item for satisfactory completion. Maybe they want to use the feature on a continuous integration server first. If they are happy with the developers' claim of completion, they will manually mark the status as done. This certainly changes the game, indicating that neither transactional nor eventual consistency is necessary. Tasks could be split off from their parent backlog item because this new use case allows it. However, if it is really the team members that should cause the automatic transition to done, it would mean that tasks should probably be composed within the backlog item to allow for transactional consistency.
+</p>
+
+
+<p class="en">
+Interestingly, there is no clear answer here either, which probably indicates that it should be an optional application preference. Leaving tasks within their backlog item solves the consistency problem, and it's a modeling choice that can support both automatic or manual status transitions.
+</p>
+
+
+
+<p class="en">
+This valuable exercise has uncovered a completely new as- pect of the domain. It seems like teams should be able to configure a work flow preference. They aren't going to im- plement such a feature now, but they will promote it for further discussion. Asking 'whose job is it?' led them to a few vital perceptions about their domain.
+</p>
+
+
+
+<p class="en">
+Next, one of the developers made a very practical sugges- tion as an alternative to this whole analysis. If they are chiefly concerned with the possible overhead of the story attribute, why not do something about that specifically? They could reduce the total storage capacity for the story and in addition create a new useCaseDefinition property too. They could design it to lazy load, since much of the time it would never be used. Or they could even design it as a separate aggregate, only loading it when needed. With that idea they realized this could be a good time to break the rule to reference external aggregates only by identity. It seems like a suitable modeling choice to use a direct object reference, and declare its object-relational mapping so as to lazily load it. Perhaps that makes sense.
+</p>
+
+
+<h3 id="决策时间-Time-for-Decisions"><a href="#决策时间-Time-for-Decisions" class="headerlink" title="决策时间(Time for Decisions)"></a>决策时间(Time for Decisions)</h3><p class="en">
+Based on all this analysis, currently the team is shying away from splitting Task from BacklogItem. They can't be certain that splitting it now is worth the extra effort, the risk of leaving the true invariant unprotected, or allow- ing users to experience a possible stale status in the view. The current aggregate, as they understand it, is fairly small as is. Even if their common worse case loaded 50 objects rather than 25, it's still a reasonably sized cluster. For now they will plan around the specialized use case definition holder. Doing that is a quick win with lots of benefits. It adds little risk, because it will work now, and in the future if they decide to split Task from BacklogItem.
+</p>
+
+
+
+<p class="en">
+The option to split it in two remains in their hip pocket just in case. After further experimentation with the current design, running it through performance and load tests, as well investigating user acceptance with an eventually con- sistent status, it will become more clear which approach is best. The BOTE numbers could prove to be wrong if in production the aggregate is larger than imagined. If so, the team will no doubt split it into two.
+</p>
+
+
+
+<p class="en">
+If you were a member of the ProjectOvation team, which modeling option would you have chosen?
+</p>
+
+
+<h2 id="总结-Summary"><a href="#总结-Summary" class="headerlink" title="总结(Summary)"></a>总结(Summary)</h2><p class="en">
+Don't shy away from discovery sessions as demonstrated above. That entire effort would require 30 minutes, and per- haps as much as 60 minutes at worse case. It's well worth the time to gain deeper insight into your core domain.
+</p>
+
+
+<p class="en">
+Using a real-world example domain model, we have examined how crucial it is to follow the rules of thumb when designing aggregates:<br />
+• Model True Invariants In Consistency Boundaries <br />
+• Design Small Aggregates <br />
+• Reference Other Aggregates By Identity <br />
+• Use Eventual Consistency Outside the Boundary (after asking whose job it is) <br />
+If we adhere to the rules, we'll have consistency where ne- cessary, and support optimally performing and highly scal- able systems, all while capturing the ubiquitous language of our business domain in a carefully crafted model.
+<p>
+
+<hr />
+
+<p>Copyright © 2011 Vaughn Vernon. All rights reserved. Effective Aggregate Design is licensed under the Creative Commons Attribution-NoDerivs 3.0 Unported License: <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nd/3.0/">http://creativecommons.org/licenses/by-nd/3.0/</a></p>
+<h2 id="致谢-Acknowledgments"><a href="#致谢-Acknowledgments" class="headerlink" title="致谢(Acknowledgments)"></a>致谢(Acknowledgments)</h2><p class="ori">
+Eric Evans and Paul Rayner did several detailed reviews of this essay. I also received feedback from Udi Dahan, Greg Young, Jimmy Nilsson, Niclas Hedhman, and Rickard Öberg.
+</p>
+
+<h2 id="引用-References"><a href="#引用-References" class="headerlink" title="引用(References)"></a>引用(References)</h2><p class="ori">
+[Cockburn] Alistair Cockburn; Hexagonal Architecture; http://alistair.cockburn.us/Hexagonal+architecture <br />
+
+<p>[DDD] Eric Evans; Domain-Driven Design—Tackling Complexity in the Heart of Software. <br /></p>
+<p>[Pearls] Jon Bentley; Programming Pearls, Second Edition; <a target="_blank" rel="noopener" href="http://cs.bell-labs.com/cm/cs/pearls/bote.html">http://cs.bell-labs.com/cm/cs/pearls/bote.html</a> <br /></p>
+<p>[Story Points] Jeff Sutherland; Story Points: Why are they better than hours?; <br /><br><a target="_blank" rel="noopener" href="http://scrum.jeffsutherland.com/2010/04/story-points-why-">http://scrum.jeffsutherland.com/2010/04/story-points-why-</a> are-they-better-than.html <br /></p>
+</p>
+
+
+<h2 id="个人经历-Biography"><a href="#个人经历-Biography" class="headerlink" title="个人经历(Biography)"></a>个人经历(Biography)</h2><p class="ori">
+Vaughn Vernon is a veteran consultant, providing architecture, development, mentoring, and training services. <br />
+This three-part essay is based on his upcoming book on implementing domain-driven design. <br />
+His QCon San Francisco 2010 presentation on context mapping is available on the DDD Community site: <br />
+http://dddcommunity.org/library/vernon_2010.  <br />
+Vaughn blogs here: http://vaughnvernon.co/; <br />
+you can reach him by email here: vvernon@shiftmethod.com;  <br />
+and follow him on Twitter here: @VaughnVernon 
+</p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/arch/">arch</a>, <a class="article-category-link" href="/categories/arch/ddd/">ddd</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ddd/" rel="tag">ddd</a></li></ul>
+
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: '/img/weixin.png',
+  alipayImage: '/img/zfb.jpg'
+});
+</script>
+      
+            
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/01/09/arch/effective-aggregate-design-2/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">【译】DDD有效聚合设计，第二部分：多聚合协作</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article" style="overflow-y: scroll; max-width: 28%;">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%8D%E4%B8%80%E6%AC%A1%E9%87%8D%E6%96%B0%E6%80%9D%E8%80%83%E8%AE%BE%E8%AE%A1-Rethinking-the-Design-Again"><span class="nav-number">1.</span> <span class="nav-text">再一次重新思考设计(Rethinking the Design, Again)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E8%81%9A%E5%90%88%E4%BB%A3%E4%BB%B7-Estimating-Aggregate-Cost"><span class="nav-number">1.1.</span> <span class="nav-text">评估聚合代价(Estimating Aggregate Cost)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%99%AE%E9%80%9A%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF-Common-Usage-Scenarios"><span class="nav-number">1.2.</span> <span class="nav-text">普通使用场景(Common Usage Scenarios)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E6%B6%88%E8%80%97-Memory-Consumption"><span class="nav-number">1.3.</span> <span class="nav-text">内存消耗(Memory Consumption)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A2%E7%B4%A2%E5%8F%A6%E4%B8%80%E7%A7%8D%E6%9B%BF%E6%8D%A2%E8%AE%BE%E8%AE%A1-Exploring-Another-Alternative-Design"><span class="nav-number">1.4.</span> <span class="nav-text">探索另一种替换设计(Exploring Another Alternative Design)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%9C%80%E7%BB%88%E4%B8%80%E8%87%B4%E6%80%A7-Implementing-Eventual-Consistency"><span class="nav-number">1.5.</span> <span class="nav-text">实现最终一致性(Implementing Eventual Consistency)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%99%E6%98%AF%E5%9B%A2%E9%98%9F%E6%88%90%E5%91%98%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%90%97%EF%BC%9F-Is-It-the-Team-Member%E2%80%99s-Job"><span class="nav-number">1.6.</span> <span class="nav-text">这是团队成员的工作吗？(Is It the Team Member’s Job?)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%97%B6%E9%97%B4-Time-for-Decisions"><span class="nav-number">1.7.</span> <span class="nav-text">决策时间(Time for Decisions)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-Summary"><span class="nav-number">2.</span> <span class="nav-text">总结(Summary)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%B4%E8%B0%A2-Acknowledgments"><span class="nav-number">3.</span> <span class="nav-text">致谢(Acknowledgments)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E7%94%A8-References"><span class="nav-number">4.</span> <span class="nav-text">引用(References)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AA%E4%BA%BA%E7%BB%8F%E5%8E%86-Biography"><span class="nav-number">5.</span> <span class="nav-text">个人经历(Biography)</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2022 PLAYAROUND All Rights Reserved.
+          
+            <span id="busuanzi_container_site_uv">
+              本站访客数<span id="busuanzi_value_site_uv"></span>人次  
+              本站总访问量<span id="busuanzi_value_site_pv"></span>次
+            </span>
+          
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hiero" target="_blank">hiero</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var contentdiv = document.getElementById("content");
+
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+</script>
+
+<!-- Custome JS -->
+
+<script src="/js/my.js"></script>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css">
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="https://dnqof95d40fo6.cloudfront.net/atw7f8.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>
