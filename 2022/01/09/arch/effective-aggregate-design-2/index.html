@@ -34,7 +34,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="http://playaround88.github.io/img/zfb.jpg">
 <meta property="article:published_time" content="2022-01-09T03:36:43.000Z">
-<meta property="article:modified_time" content="2022-01-19T02:35:37.862Z">
+<meta property="article:modified_time" content="2022-01-21T08:51:39.310Z">
 <meta property="article:author" content="wutb">
 <meta property="article:tag" content="ddd">
 <meta name="twitter:card" content="summary">
@@ -230,12 +230,12 @@ Part II: Making Aggregates Work Together
 Part I focused on the design of a number of small aggreg- ates and their internals. In Part II we discuss how aggreg- ates reference other aggregates, as well as how to leverage eventual consistency to keep separate aggregate instances in harmony.
 </p>
 
-<p>第一部分聚焦设计多个小的聚合和它们的内部交互。在第二部分我们讨论聚合引用其他聚合，还有如何巧用最终一致性，来持续”和谐”的分离聚合实例。</p>
+<p>第一部分聚焦设计多个小的聚合和它们的内部交互。在第二部分，我们讨论聚合引用其他聚合，还有如何巧用最终一致性，来持续”和谐”的分离聚合实例。</p>
 <p class="en">
 When designing aggregates, we may desire a compositional structure that allows for traversal through deep object graphs, but that is not the motivation of the pattern. [DDD] states that one aggregate may hold references to the root of other aggregates. However, we must keep in mind that this does not place the referenced aggregate inside the consistency boundary of the one referencing it. The reference does not cause the formation of just one, whole aggregate. There are still two (or more), as shown in Figure 5.
 </p>
 
-<p>当设计聚合时，我们可能希望组合的结构来方便在深度的对象图中遍历，但这不是设计模式的初衷。[DDD]声明一个聚合可能持有到其他聚合根的引用。然而，我们必须牢记这和在一个聚合的致性边界引内用其他聚合不冲突。引用不会造成所有聚合只有一个。依然会有两个(或多个)，入下图例5。</p>
+<p>当设计聚合时，我们可能希望组合的结构来方便在深度的对象图中遍历，但这不是设计模式的初衷。[DDD]声明一个聚合可能持有到其他聚合根的引用。然而，我们必须牢记这和在一个聚合的致性边界内，引用其他聚合不冲突。引用不会造成所有聚合形成一个。依然会有两个(或多个)，入下图例5。</p>
 <p><img src="/img/ddd-ead/figure-5.png" alt=""></p>
 <p class="en">
 In Java the association would be modeled like this:

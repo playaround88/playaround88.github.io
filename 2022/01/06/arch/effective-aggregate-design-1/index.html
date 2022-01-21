@@ -34,7 +34,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="http://playaround88.github.io/img/zfb.jpg">
 <meta property="article:published_time" content="2022-01-06T06:50:21.000Z">
-<meta property="article:modified_time" content="2022-01-19T12:11:39.381Z">
+<meta property="article:modified_time" content="2022-01-21T08:47:07.217Z">
 <meta property="article:author" content="wutb">
 <meta property="article:tag" content="ddd">
 <meta name="twitter:card" content="summary">
@@ -227,45 +227,43 @@ Part I: Modeling a Single Aggregate
 
 <p>有效聚合设计，第一部分：单聚合建模</p>
 <p class="en">
-Clustering entities and value objects into an aggregate with a carefully crafted consistency boundary may at first seem like quick work, but among all [DDD] tactical guid- ance, this pattern is one of the least well understood.
+Clustering entities and value objects into an aggregate with a carefully crafted consistency boundary may at first seem like quick work, but among all [DDD] tactical guidance, this pattern is one of the least well understood.
 </p>
 
-<p>将实体和值对象聚类到一个拥有精心设计的一致性边界的聚合，一开始可能是一个快速的工作，但随着所有的[DDD]战术设计，这个模式成为了一个缺乏理解的部分。</p>
+<p>用精心设计的一致性边界将实体和值对象聚集到一个聚合中，乍一看似乎很快，但在所有 [DDD] 战术指导中，这种模式是最不被理解的模式之一。 </p>
 <p class="en">
 To start off, it might help to consider some common questions. Is an aggregate just a way to cluster a graph of closely related objects under a common parent? If so, is there some practical limit to the number of objects that should be allowed to reside in the graph? Since one aggregate instance can reference other aggregate instances, can the associations be navigated deeply, modifying various objects along the way? And what is this concept of invariants and a consistency boundary all about? It is the answer to this last question that greatly influences the answers to the others.
 </p>
 
-<p>开始，它可能对考虑一些通用问题有帮助。聚合只是一种把在一个通用父对象下相关性较高的对象图聚类的方式吗？ 如果是，是否有一些实践的对允许放置到对象图中的个数的限制？因为一个聚合实例可以引用其他聚合实例，这些关联可以做深度遍历，并这种方式修改多种对象吗？ 不变性和一致性边界的概念是什么？这是这个影响很多其他问题答案的最后的问题的答案。</p>
+<p>首先，它对于考虑一些常见问题可能会有所帮助。 聚合只是一种将密切相关的对象图聚集在一个共同的父对象下的方法吗？ 如果是这样，对于应该允许驻留在图中的对象数量是否有一些实际限制？ 由于一个聚合实例可以引用其他聚合实例，是否可以深入导航关联，沿途修改各种对象？ 这个不变量和一致性边界的概念是什么？ 正是这最后一个问题的答案极大地影响了其他问题的答案。 </p>
 <p class="en">
 There are various ways to model aggregates incorrectly. We could fall into the trap of designing for compositional convenience and make them too large. At the other end of the spectrum we could strip all aggregates bare, and as a result fail to protect true invariants. As we'll see, it's imperative that we avoid both extremes and instead pay attention to the business rules.
 </p>
 
-<p>通常有很多错误聚合建模的方式。我们可能掉入组合设计便利性的陷阱，把它们设计的非常大。另一种极端我们可能把所有的聚合”扒光“，结果不能包含真正的不变性。正如我们将看到的，我们应该避免两种极端并把注意力放到业务规则，这至关重要。</p>
+<p>通常有很多错误聚合建模的方式。 我们可能掉入组合设计便利性的陷阱，并把它们设计的非常大。另一种极端，我们可以剥离所有聚合，结果导致无法保护真正的不变量。正如我们将看到的，我们必须避免两个极端，而是关注业务规则，这至关重要。</p>
 <h2 id="设计一个敏捷开发管理应用-Designing-a-Scrum-Management-Application"><a href="#设计一个敏捷开发管理应用-Designing-a-Scrum-Management-Application" class="headerlink" title="设计一个敏捷开发管理应用(Designing a Scrum Management Application)"></a>设计一个敏捷开发管理应用(Designing a Scrum Management Application)</h2><p class="en">
 The best way to explain aggregates is with an example. Our fictitious company is developing an application to support Scrum-based projects, ProjectOvation. It follows the traditional Scrum project management model, complete with product, product owner, team, backlog items, planned releases, and sprints. If you think of Scrum at its richest, that's where ProjectOvation is headed. This provides a familiar domain to most of us. The Scrum terminology forms the starting point of the ubiquitous language. It is a subscription-based application hosted using the software as a service (SaaS) model. Each subscribing organization is registered as a tenant, another term for our ubiquitous language.
 </p>
 
-<p>解释聚合的最好方式是通过例子。我们的虚拟公司正在开发一个应用来支撑”敏捷(scrm-base)“项目，ProjectOvation(项目名称)。它遵循传统的Scrum项目管理模型，包含product(产品)，product owner(产品所有者)，team(团队)，backlog items(需求积压项)，planned releases(规划版本)，和sprints(冲刺)。你想象的最完美的Scrum，就是ProjectOvation想做的。这提供了一个对我们大多数人比较熟悉的模型。Scrum的术语组成了统一语言的起点。它是一个使用托管的SaaS模型的订阅为基础的应用。每一个订阅的组织都注册为一个租户，我们统一语言中的另一个名词。</p>
+<p>解释聚合的最好方法是举个例子。 我们虚构的公司正在开发一个应用程序来支持基于 Scrum 的项目，ProjectOvation。 它遵循传统的 Scrum 项目管理模型，包括产品、产品负责人、团队、待办事项、计划发布和冲刺。 你想象的最完美的Scrum，那就是 ProjectOvation 的发展方向。 这为我们大多数人提供了一个熟悉的领域。 Scrum 术语构成了无处不在的语言的起点。 它是一个使用软件即服务 (SaaS) 模型托管的基于订阅的应用程序。 每个订阅组织都注册为租户，这是我们无处不在的语言的另一个术语。</p>
 <p class="en">
 The company has assembled a group of talented Scrum experts and Java developers. However, their experience with DDD is somewhat limited. That means the team is going to make some mistakes with DDD as they climb a difficult learning curve. They will grow, and so can we. Their struggles may help us recognize and change similar unfavorable situations we've created in our own software.
 </p>
 
-<p>公司组织了一些租户的Scrum的专家和Java开发人员。然后，他们的DDD的经验却又一些局限。这就是说团队可能会在实践DDD困难的学习曲线时犯一些错误。他们将会成长，那么学完之后我们也会成长。他们实践中的挣扎可能会帮助我们识别和改正我们创建的软件中的相同的不幸场景。</p>
+<p>公司组织了一些租户的Scrum的专家和Java开发人员。然后，他们的DDD的经验却又一些局限。这就是说团队可能会在实践DDD困难的学习曲线时犯一些错误。他们将会成长，那么学完之后我们也会成长。他们实践中的挣扎，可能会帮助我们识别和改正，我们创建的软件中的相同的不幸场景。</p>
 <p class="en">
 The concepts of this domain, along with its performance and scalability requirements, are more complex than any of them have previously faced. To address these issues, one of the DDD tactical tools that they will employ is aggregate.
 </p>
 
 <p>这个领域中的概念，伴随它的性能和扩展需求，比他们之前遇到的任何项目更加复杂。为了定位这些问题，他们要使用的一个DDD的战术工具就是聚合。</p>
 <p class="en">
-How should the team choose the best object clusters? The aggregate pattern discusses composition and alludes to information hiding, which they understand how to achieve. It also discusses consistency boundaries and transactions, but they haven't been overly concerned with that. Their chosen persistence mechanism will help manage atomic commits of their data. However, that was a crucial misunderstanding of the pattern's guidance that caused them to regress. Here's what happened. The team considered the following statements in the ubiquitous language:
-<pre>
-  • Products have backlog items, releases, and sprints.
-  • New product backlog items are planned.
-  • New product releases are scheduled.
-  • New product sprints are scheduled.
-  • A planned backlog item may be scheduled for release.
-  • A scheduled backlog item may be committed to a sprint.
-</pre>
+How should the team choose the best object clusters? The aggregate pattern discusses composition and alludes to information hiding, which they understand how to achieve. It also discusses consistency boundaries and transactions, but they haven't been overly concerned with that. Their chosen persistence mechanism will help manage atomic commits of their data. However, that was a crucial misunderstanding of the pattern's guidance that caused them to regress. Here's what happened. The team considered the following statements in the ubiquitous language: <br />
+• Products have backlog items, releases, and sprints. <br />
+• New product backlog items are planned. <br />
+• New product releases are scheduled. <br />
+• New product sprints are scheduled. <br />
+• A planned backlog item may be scheduled for release. <br />
+• A scheduled backlog item may be committed to a sprint. <br />
 From these they envisioned a model, and made their first attempt at a design. Let's see how it went.
 </p>
 
@@ -279,13 +277,11 @@ From these they envisioned a model, and made their first attempt at a design. Le
 <li>一个计划的需求积压项可能被提交到一个冲刺。<br>基于上述他们预想了一个模型，并做了他们的首次设计尝试。让我们看看它的进展如何。</li>
 </ul>
 <h3 id="初次尝试：大集群聚合-First-Attempt-Large-Cluster-Aggregate"><a href="#初次尝试：大集群聚合-First-Attempt-Large-Cluster-Aggregate" class="headerlink" title="初次尝试：大集群聚合(First Attempt: Large-Cluster Aggregate)"></a>初次尝试：大集群聚合(First Attempt: Large-Cluster Aggregate)</h3><p class="en">
-The team put a lot of weight on the words “Products have” in the first statement. It sounded to some like composition, that objects needed to be interconnected like an object graph. Maintaining these object life cycles together was considered very important. So, the developers added the following consistency rules into the specification:
-<pre>
-  • If a backlog item is committed to a sprint, we must not allow it to be removed from the system.
-  • If a sprint has committed backlog items, we must not allow it to be removed from the system.
-  • If a release has scheduled backlog items, we must not allow it to be removed from the system.
-  • If a backlog item is scheduled for release, we must not allow it to be removed from the system.
-</pre>
+The team put a lot of weight on the words “Products have” in the first statement. It sounded to some like composition, that objects needed to be interconnected like an object graph. Maintaining these object life cycles together was considered very important. So, the developers added the following consistency rules into the specification: <br />
+• If a backlog item is committed to a sprint, we must not allow it to be removed from the system. <br />
+• If a sprint has committed backlog items, we must not allow it to be removed from the system. <br />
+• If a release has scheduled backlog items, we must not allow it to be removed from the system. <br />
+• If a backlog item is scheduled for release, we must not allow it to be removed from the system. 
 </p>
 
 <p>在首次陈述中，团队把大部分重点放在了”产品包含什么“。这听起来想组合，对象需要像一个对象图一样内部相互联系。通常认为维护这些对象的生命周期非常重要。所以，开发人员在规范中添加了下面的一致性规则：</p>
@@ -308,12 +304,10 @@ The big aggregate looked attractive, but it wasn't truly practical. Once the app
 
 <p>大的聚合对象看起来很诱人，但它不是可行的实践。一旦程序运行在它预设的多用户环境，就会开始经常遇到事务失败。让我们进一步看几个客户使用模式，看他们如何和我们的技术方案模型交互。我们的聚合实例采用乐观并发锁来保护持久对象不被不同用户同时覆盖修改，因此避免使用数据库锁。对象承载了一个每次修改就递增的版本号，并且每次保存数据库前都会校验版本号。如果持久对象版本号大于客户端持有副本，客户端被认为是陈旧的，更新会被拒绝。</p>
 <p class="en">
-Consider a common simultaneous, multi-client usage scenario:
-<pre>
-  • Two users, Bill and Joe, view the same Product marked as version 1, and begin to work on it.
-  • Bill plans a new BacklogItem and commits. The Product version is incremented to 2.
-  • Joe schedules a new Release and tries to save, but his commit fails because it was based on Product version 1.
-</pre>
+Consider a common simultaneous, multi-client usage scenario: <br />
+• Two users, Bill and Joe, view the same Product marked as version 1, and begin to work on it. <br />
+• Bill plans a new BacklogItem and commits. The Product version is incremented to 2. <br />
+• Joe schedules a new Release and tries to save, but his commit fails because it was based on Product version 1.
 </p>
 
 <p>考虑一个常见的同时，多用户使用场景：</p>
@@ -323,7 +317,7 @@ Consider a common simultaneous, multi-client usage scenario:
 <li>Joe规划了一个新的版本(Release)并且试图保存，但是他的提交失败了，因为它是基于产品(Product)的版本1.</li>
 </ul>
 <p class="en">
-Persistence mechanisms are used in this general way to deal with concurrency. If you argue that the default concurrency configurations can be changed, reserve your verdict for a while longer. This approach is actually important to protect- ing aggregate invariants from concurrent changes.
+Persistence mechanisms are used in this general way to deal with concurrency. If you argue that the default concurrency configurations can be changed, reserve your verdict for a while longer. This approach is actually important to protecting aggregate invariants from concurrent changes.
 </p>
 
 <p>通常使用持久性机制来处理并发。如果有说默认的并发配置可以修改有争议，先保留一会你的最终决议。这种途径事实上对于保护并发修改下的聚合不变性是非常重要的。</p>
@@ -340,9 +334,8 @@ Nothing about planning a new backlog item should logically interfere with schedu
 <h3 id="二次尝试：多聚合-Second-Attempt-Multiple-Aggregates"><a href="#二次尝试：多聚合-Second-Attempt-Multiple-Aggregates" class="headerlink" title="二次尝试：多聚合(Second Attempt: Multiple Aggregates)"></a>二次尝试：多聚合(Second Attempt: Multiple Aggregates)</h3><p class="en">
 Now consider an alternative model as shown in Figure 2, in which we have four distinct aggregates. Each of the dependencies is associated by inference using a common ProductId, which is the identity of Product considered the parent of the other three.
 </p>
-那么现在考虑一个下图2展示的替代模型，如图我们有四个独立的聚合。每一个独立依赖是一个对通用的ProductId的引用，它是产品(Product)的唯一标识被认为是tree的其他节点的父节点。
-![multi-aggregate](/img/ddd-ead/figure-2.png)
 
+<p>那么现在考虑一个下图2展示的替代模型，如图我们有四个独立的聚合。每一个独立依赖是一个对通用的ProductId的引用，它是产品(Product)的唯一标识被认为是tree的其他节点的父节点。<br><img src="/img/ddd-ead/figure-2.png" alt="multi-aggregate"></p>
 <p class="en">
 Breaking the large aggregate into four will change some method contracts on Product. With the large cluster aggregate design the method signatures looked like this:
 </p>
@@ -380,10 +373,8 @@ When trying to discover the aggregates in a bounded context, we must understand 
 
 <p>当在界限上下文试着发现聚合时，我们必须理解模型的真实不变性。只有了解这些我们才能决定那个对象应该被聚类到指定的聚合。</p>
 <p class="en">
-An invariant is a business rule that must always be consistent. There are different kinds of consistency. One is trans- actional, which is considered immediate and atomic. There is also eventual consistency. When discussing invariants, we are referring to transactional consistency. We might have the invariant:
-<pre>
-  c = a + b
-</pre>
+An invariant is a business rule that must always be consistent. There are different kinds of consistency. One is trans- actional, which is considered immediate and atomic. There is also eventual consistency. When discussing invariants, we are referring to transactional consistency. We might have the invariant: <br/>
+  c = a + b <br/>
 </p>
 
 <p>不变性是一个必须始终保持一致的逻辑规则。有很多不同类型的一致性。一种是被认为<em>立即</em>和<em>原子</em>的事务性。还有一种最终一致性。当讨论不变性，我们参考事务一致性。我们可能有如下的不变性:<br>  c = a + b</p>
