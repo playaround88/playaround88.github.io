@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <!-- PACE Progress Bar START -->
+  
+    
+<script src="https://raw.githubusercontent.com/HubSpot/pace/v1.0.2/pace.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://github.com/HubSpot/pace/raw/master/themes/orange/pace-theme-flash.css">
+
+  
+  
+
+  <!-- PACE Progress Bar START -->
+
+  
+  <title>跨越分布式事务：背教者的主见 | PLAYAROUND</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="distributed-transaction" />
+  
+  
+  
+  
+  <meta name="description" content="true">
+<meta property="og:type" content="article">
+<meta property="og:title" content="跨越分布式事务：背教者的主见">
+<meta property="og:url" content="http://playaround88.github.io/2022/01/26/arch/life-beyond-distributed-transactions/index.html">
+<meta property="og:site_name" content="PLAYAROUND">
+<meta property="og:description" content="true">
+<meta property="og:locale">
+<meta property="og:image" content="http://playaround88.github.io/img/zfb.jpg">
+<meta property="article:published_time" content="2022-01-26T01:36:52.000Z">
+<meta property="article:modified_time" content="2022-02-11T01:53:18.780Z">
+<meta property="article:author" content="wutb">
+<meta property="article:tag" content="distributed-transaction">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://playaround88.github.io/img/zfb.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="PLAYAROUND" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="https://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" >
+  <link rel="stylesheet" href="/css/hiero.css" >
+  <link rel="stylesheet" href="/css/glyphs.css" >
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+  <!-- Custom CSS -->
+  
+<link rel="stylesheet" href="/css/my.css">
+
+  <!-- Google Adsense -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+      (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-0123456789ABCDEF",
+          enable_page_level_ads: true
+      });
+  </script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<script>
+var themeMenus = {};
+
+  themeMenus["/"] = "Home"; 
+
+  themeMenus["/archives"] = "Archives"; 
+
+  themeMenus["/categories"] = "Categories"; 
+
+  themeMenus["/tags"] = "Tags"; 
+
+  themeMenus["/about"] = "About"; 
+
+</script>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  <header id="allheader" class="site-header" role="banner">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="PLAYAROUND" rel="home"> PLAYAROUND </a>
+            
+          </h1>
+
+          
+            <div class="site-description">Put into practice, u are changing without realizing it! </div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+            <div class="clearfix sf-menu">
+
+              <ul id="main-nav" class="nmenu sf-js-enabled">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/categories">Categories</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="originBgDiv" style="background: #fff; width: 100%;">
+
+      <div style="max-height:600px; overflow: hidden;  display: flex; display: -webkit-flex; align-items: center;">
+        <img id="originBg" width="100%" alt="" src="">
+      </div>
+
+  </div>
+
+  <script>
+  function setAboutIMG(){
+      var imgUrls = "css/images/pose.jpg,https://source.unsplash.com/collection/954550/1920x1080".split(",");
+      var random = Math.floor((Math.random() * imgUrls.length ));
+      if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+        document.getElementById("originBg").src=imgUrls[random];
+      } else {
+        document.getElementById("originBg").src='/' + imgUrls[random];
+      }
+  }
+  bgDiv=document.getElementById("originBgDiv");
+  if(location.pathname.match('about')){
+    setAboutIMG();
+    bgDiv.style.display='block';
+  }else{
+    bgDiv.style.display='none';
+  }
+  </script>
+
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-arch/life-beyond-distributed-transactions" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/zfb.jpg" rel="gallery_ckzdhx88w00006qtc9pol8unl">
+        <img src="/img/zfb.jpg" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      跨越分布式事务：背教者的主见
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	Posted on <a href="/2022/01/26/arch/life-beyond-distributed-transactions/" class="article-date">
+	  <time datetime="2022-01-26T01:36:52.000Z" itemprop="datePublished">January 26, 2022</time>
+	</a>
+
+      
+	<span id="busuanzi_container_page_pv">
+	  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+	</span>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="en">
+Life beyond Distributed Transactions: <br/>
+an Apostate’s Opinion
+</p>
+
+<p>跨越分布式事务：背教者的主见</p>
+<p class="en">
+The positions expressed in this paper are personal opinions and do not in any way reflect the positions of my employer Amazon.com.
+</p>
+
+<blockquote>
+<p>本文所表达的立场是个人观点，不以任何方式反映我的雇主 Amazon.com 的立场。</p>
+</blockquote>
+<h1 id="摘要-ABSTRACT"><a href="#摘要-ABSTRACT" class="headerlink" title="摘要(ABSTRACT)"></a>摘要(ABSTRACT)</h1><p class="en">
+Many decades of work have been invested in the area of distributed transactions including protocols such as 2PC, Paxos, and various approaches to quorum. These protocols provide the application programmer a façade of global serializability. Personally, I have invested a nontrivial portion of my career as a strong advocate for the implementation and use of platforms providing guarantees of global serializability.
+</p>
+
+<p>在分布式事务领域已有数十年的工作投入，包括 2PC、Paxos 等协议和各种仲裁方法。 这些协议为应用程序员提供了全局可串行化的外部使用方式。 就个人而言，我在职业生涯中投入了很重要的精力，大力倡导实施和使用提供全局可序列化保证的平台。</p>
+<p class="en">
+My experience over the last decade has led me to liken these platforms to the Maginot Line1. In general, application developers simply do not implement large scalable applications assuming distributed transactions. When they attempt to use distributed transactions, the projects founder because the performance costs and fragility make them impractical. Natural selection kicks in...
+</p>
+
+<p>我在过去十年的经验使我将这些平台比作马奇诺防线。 通常，应用程序开发人员根本不会实现假设分布式事务的大型可扩展应用程序。 当他们尝试使用分布式事务时，项目失败了，因为性能成本和脆弱性使它们不切实际。 自然选择开始…</p>
+<p class="en">
+Instead, applications are built using different techniques which do not provide the same transactional guarantees but still meet the needs of their businesses.
+</p>
+
+<p>相反，应用程序是使用不同的技术构建的，这些技术不提供相同的事务保证，但仍能满足其业务的需求。</p>
+<p class="en">
+This paper explores and names some of the practical approaches used in the implementations of large-scale mission-critical applications in a world which rejects distributed transactions. We discuss the management of fine-grained pieces of application data which may be repartitioned over time as the application grows. We also discuss the design patterns used in sending messages between these repartitionable pieces of data.
+</p>
+
+<p>本文探讨并命名了一些在拒绝分布式事务的环境中，用于实现大规模关键任务应用程序的实用方法。 我们讨论了细粒度的应用程序数据的管理，随着应用程序的增长，这些数据可能会随着时间的推移而重新分区。 我们还讨论了在这些可重新分区的数据之间发送消息时使用的设计模式。</p>
+<p class="en">
+The reason for starting this discussion is to raise awareness of new patterns for two reasons. First, it is my belief that this awareness can ease the challenges of people hand-crafting very large scalable applications. Second, by observing the patterns, hopefully the industry can work towards the creation of platforms that make it easier to build these very large applications.
+</p>
+
+<p>开始这个讨论的原因是为了提高对新模式的认识，原因有两个。 首先，我相信这种意识可以减轻人们手工制作非常大的可扩展应用程序的挑战。 其次，通过观察这些模式，希望行业能够努力创建平台，使构建这些非常大的应用程序变得更加容易。</p>
+<h1 id="1-简介-INTRODUCTION"><a href="#1-简介-INTRODUCTION" class="headerlink" title="1. 简介(INTRODUCTION)"></a>1. 简介(INTRODUCTION)</h1><p class="en">
+Let’s examine some goals for this paper, some assumptions that I am making for this discussion, and then some opinions derived from the assumptions. While I am keenly interested in high availability, this paper will ignore that issue and focus on scalability alone. In particular, we focus on the implications that fall out of assuming we cannot have large-scale distributed transactions.
+</p>
+
+<p>让我们检查一下本文的一些目标，我为这次讨论所做的一些假设，然后从这些假设中得出一些意见。 虽然我对高可用性非常感兴趣，但本文将忽略该问题并仅关注可伸缩性。 特别是，我们专注于假设我们不能进行大规模分布式事务的影响。</p>
+<h2 id="目标-Goals"><a href="#目标-Goals" class="headerlink" title="目标(Goals)"></a>目标(Goals)</h2><p class="en">
+This paper has three broad goals:
+</p>
+
+<p>本文有三个宽泛的目标:</p>
+<p class="en">
+* Discuss Scalable Applications
+Many of the requirements for the design of scalable systems are understood implicitly by many application designers who build large systems. <br />
+The problem is that the issues, concepts, and abstractions for the interaction of transactions and scalable systems have no names and are not crisply understood. When they get applied, they are inconsistently applied and sometimes come back to bite us. One goal of this paper is to launch a discussion which can increase awareness of these concepts and, hopefully, drive towards a common set of terms and an agreed approach to scalable programs.<br />
+This paper attempts to name and formalize some abstractions implicitly in use for years to implement scalable systems.
+
+</p>
+
+<ul>
+<li>讨论应用程序的扩展性<br>许多构建大型系统的应用程序设计人员都隐含地理解了设计可扩展系统的许多要求。<br>问题是事务和可扩展系统交互的问题、概念和抽象没有名称，也没有被清晰地理解。 当它们被应用时，它们的应用不一致，有时会回来咬我们。 本文的一个目标是发起一场讨论，以提高对这些概念的认识，并有望推动一套通用的术语和可扩展程序的商定方法。<br>本文试图命名和形式化多年来隐式使用的一些抽象，以实现可扩展的系统。</li>
+</ul>
+<p class="en">
+* Think about Almost-Infinite Scaling of Applications <br />
+To frame the discussion on scaling, this paper presents an informal thought experiment on the impact of almost-infinite scaling. I assume the number of customers, purchasable entities, orders, shipments, health-care-patients, taxpayers, bank accounts, and all other business concepts manipulated by the application grow significantly larger over time. Typically, the individual things do not get significantly larger; we simply get more and more of them. It really doesn’t matter what resource on the computer is saturated first, the increase in demand will drive us to spread what formerly ran on a small set of machines to run over a larger set of machines... <br />
+Almost-infinite scaling is a loose, imprecise, and deliberately amorphous way to motivate the need to be very clear about when and where we can know something fits on one machine and what to do if we cannot ensure it does fit on one machine. Furthermore, we want to scale almost linearly[^3] with the load (both data and computation). <br/>
+</p>
+
+<ul>
+<li>考虑应用程序的无限扩展可能性<br>为了构建关于缩放的讨论，本文提出了一个关于几乎无限缩放的影响的非正式思想实验。 我假设客户、可购买实体、订单、发货、医疗保健患者、纳税人、银行账户以及应用程序操纵的所有其他业务概念的数量随着时间的推移会显着增加。 通常，单个事物不会变得更大； 我们只是得到越来越多的实例。 计算机上的什么资源首先饱和并不重要，需求的增加将促使我们将以前在一小部分机器上运行的东西分散到更大的机器上……<br>几乎无限缩放是一种松散的、不精确的、故意无定形的方式，它激发了我们需要非常清楚何时何地可以知道某些东西适合一台机器，以及如果我们不能确保它适合一台机器该怎么办。 此外，我们希望随着负载（数据和计算）可以几乎线性扩展[^3]。</li>
+</ul>
+<p class="en">
+* Describe a Few Common Patterns for Scalable Apps. <br/>
+What are the impacts of almost-infinite scaling on the business logic? I am asserting that scaling implies using a new abstraction called an “entity” as you write your program. An entity lives on a single machine at a time and the application can only manipulate one entity at a time. A consequence of almost-infinite scaling is that this programmatic abstraction must be exposed to the developer of business logic. <br/>
+By naming and discussing this as-yet-unnamed concept, it is hoped that we can agree on a consistent programmatic approach and a consistent understanding of the issues involved in building scalable systems. <br/>
+Furthermore, the use of entities has implications on the messaging patterns used to connect the entities. These lead to the creation of state machines that cope with the message delivery inconsistencies foisted upon the innocent application developer as they attempt to build scalable solutions to business problems.
+</p>
+
+<ul>
+<li>描述可扩展应用程序的一些常见模式<br>几乎无限扩展对业务逻辑有什么影响？ 我断言缩放意味着在编写程序时使用一种称为“实体”的新抽象。 一个实体一次存在于一台机器上，应用程序一次只能操作一个实体。 几乎无限扩展的结果是这种程序化抽象必须暴露给业务逻辑的开发人员。<br>通过命名和讨论这个尚未命名的概念，希望我们能够就一致性编程方法和对构建可扩展系统所涉及的问题的理解达成一致。<br>此外，实体的使用对用于连接实体的消息传递模式有影响。 这些导致创建状态机来处理强加给无辜应用程序开发人员的消息传递不一致，因为他们试图为业务问题构建可扩展的解决方案。</li>
+</ul>
+<h2 id="假设-Assumptions"><a href="#假设-Assumptions" class="headerlink" title="假设(Assumptions)"></a>假设(Assumptions)</h2><p class="en">
+Let’s start out with three assumptions which are asserted and not justified. We simply assume these are true based on experience.
+</p>
+
+<p>让我们从三个被断言但没有被证明的假设开始。 我们只是根据经验假设这些都是正确的。 </p>
+<p class="en">
+* Layers of the Application and Scale-Agnosticism <br />
+  Let’s start by presuming (at least) two layers in each scalable application. These layers differ in their perception of scaling. They may have other differences but that is not relevant to this discussion.<br />
+  The lower layer of the application understands the fact that more computers get added to make the system scale. In addition to other work, it manages the mapping of the upper layer’s code to the physical machines and their locations. The lower layer is scale-aware in that it understands this mapping. We are presuming that the lower layer provides a scale-agnostic programming abstraction to the upper layer[^4].<br />
+  Using this scale-agnostic programming abstraction, the upper layer of application code is written without worrying about scaling issues. By sticking to the scale-agnostic programming abstraction, we can write application code that is not worried about the changes happening when the application is deployed against ever increasing load.<br />
+  Over time, the lower layer of these applications may evolve to become new platforms or middleware which simplify the creation of scale-agnostic applications (similar to the past scenarios when CICS and other TP-Monitors evolved to simplify the creation of applications for block-mode terminals).<br />
+  The focus of this discussion is on the possibilities posed by these nascent scale-agnostic APIs.
+</p>
+
+<ul>
+<li>应用层和规模不可知论<br>让我们首先假设（至少）每个可扩展应用程序中有两个层。 这些层对缩放的感知不同。 他们可能有其他差异，但这与本次讨论无关。<br>应用程序的较低层了解添加更多计算机以使系统扩展的事实。 除此之外的其他工作，它还管理上层代码到物理机及其位置的映射。 下层是规模感知的，因为它理解这种映射。 我们假设下层为上层提供了与规模无关的编程抽象。<br>使用这种与规模无关的编程抽象，编写应用程序代码的上层而不用担心规模问题。 通过坚持与规模无关的编程抽象，我们可以编写不担心在部署应用程序以应对不断增加的负载时发生的变化的应用程序代码。<br>随着时间的推移，这些应用程序的低层可能会演变成新的平台或中间件，从而简化与规模无关的应用程序的创建（类似于过去的场景，即 CICS 和其他 TP-Monitor 演变为简化应用程序创建的模块化终端）。<br>本次讨论的重点是这些新生的与规模无关的 API 所带来的可能性。</li>
+</ul>
+<p><img src="/img/lbdt/figure-1.png" alt="figure-1"></p>
+<p class="en">
+* Scopes of Transactional Serializability <br />
+  Lots of academic work has been done on the notion of providing transactional serializability across distributed systems. This includes 2PC (two phase commit) which can easily block when nodes are unavailable and other protocols which do not block in the face of node failures such as the Paxos algorithm. <br />
+  Let’s describe these algorithms as ones which provide global transactional serializability5. Their goal is to allow arbitrary atomic updates across data spread across a set of machines. These algorithms allow updates to exist in a single scope of serializability across this set of machines. <br />
+  We are going to consider what happens when you simply don’t do this. Real system developers and real systems as we see them deployed today rarely even try to achieve transactional serializability across machines or, if they do, it is within a small number of tightly connected machines functioning as a cluster. Put simply, we aren’t doing transactions across machines except perhaps in the simple case where there is a tight cluster which looks like one machine. <br />
+  Instead, we assume multiple disjoint scopes of transactional serializability. Consider each computer to be a separate scope of transactional serializability6. <br />
+  Each data item resides in a single computer or cluster7. Atomic transactions may include any data residing within that single scope of transactional serializability (i.e. within the single computer or cluster). You cannot perform atomic transactions across these disjoint scopes of transactional serializability. That’s what makes them disjoint!
+</p>
+
+
+<p class="en">
+* Most Applications Use “At-Least-Once” Messaging <br />
+  TCP-IP is great if you are a short-lived Unix-style process. But let’s consider the dilemma faced by an application developer whose job is to process a message and modify some data durably represented on disk (either in a SQL database or some other durable store). The message is consumed but not yet acknowledged. The database is updated and then the message is acknowledged. In a failure, this is restarted and the message is processed again. <br />
+  The dilemma derives from the fact that the message delivery is not directly coupled to the update of the durable data other than through application action. While it is possible to couple the consumption of messages to the update of the durable data, this is not commonly available. The absence of this coupling leads to failure windows in which the message is delivered more than once. The messaging plumbing does this because its only other recourse is to occasionally lose messages (“at-most-once” messaging) and that is even more onerous to deal with8. <br />
+  A consequence of this behavior from the messaging plumbing is that the application must tolerate message retries and the out-of-order arrival of some messages. This paper considers the application patterns arising when business-logic programmers must deal with this burden in almost-infinitely large applications.
+</p>
+
+<h2 id="有正当理由的意见-Opinions-to-Be-Justified"><a href="#有正当理由的意见-Opinions-to-Be-Justified" class="headerlink" title="有正当理由的意见(Opinions to Be Justified)"></a>有正当理由的意见(Opinions to Be Justified)</h2><p class="en">
+
+
+
+
+
+<p class="en">
+
+
+
+
+<p class="en">
+
+
+
+
+
+<p class="en">
+
+
+
+
+
+<p class="en">
+
+
+
+
+
+<p class="en">
+
+
+
+
+
+<p class="en">
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/arch-distributed-transaction/">arch distributed-transaction</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/distributed-transaction/" rel="tag">distributed-transaction</a></li></ul>
+
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: '/img/weixin.png',
+  alipayImage: '/img/zfb.jpg'
+});
+</script>
+      
+            
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/01/17/arch/effective-aggregate-design-3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">【译】DDD有效聚合设计，第三部分：通过发现深入理解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article" style="overflow-y: scroll; max-width: 28%;">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%91%98%E8%A6%81-ABSTRACT"><span class="nav-number">1.</span> <span class="nav-text">摘要(ABSTRACT)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%AE%80%E4%BB%8B-INTRODUCTION"><span class="nav-number">2.</span> <span class="nav-text">1. 简介(INTRODUCTION)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87-Goals"><span class="nav-number">2.1.</span> <span class="nav-text">目标(Goals)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%81%87%E8%AE%BE-Assumptions"><span class="nav-number">2.2.</span> <span class="nav-text">假设(Assumptions)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89%E6%AD%A3%E5%BD%93%E7%90%86%E7%94%B1%E7%9A%84%E6%84%8F%E8%A7%81-Opinions-to-Be-Justified"><span class="nav-number">2.3.</span> <span class="nav-text">有正当理由的意见(Opinions to Be Justified)</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2022 PLAYAROUND All Rights Reserved.
+          
+            <span id="busuanzi_container_site_uv">
+              本站访客数<span id="busuanzi_value_site_uv"></span>人次  
+              本站总访问量<span id="busuanzi_value_site_pv"></span>次
+            </span>
+          
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hiero" target="_blank">hiero</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var contentdiv = document.getElementById("content");
+
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+</script>
+
+<!-- Custome JS -->
+
+<script src="/js/my.js"></script>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css">
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="https://dnqof95d40fo6.cloudfront.net/atw7f8.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>

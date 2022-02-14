@@ -34,7 +34,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="http://playaround88.github.io/img/zfb.jpg">
 <meta property="article:published_time" content="2022-01-09T03:36:43.000Z">
-<meta property="article:modified_time" content="2022-01-21T08:51:39.310Z">
+<meta property="article:modified_time" content="2022-01-26T01:29:38.093Z">
 <meta property="article:author" content="wutb">
 <meta property="article:tag" content="ddd">
 <meta name="twitter:card" content="summary">
@@ -301,7 +301,7 @@ If all this advice seems to lead to a less convenient model, consider the additi
 Since aggregates don't use direct references to other aggregates, but reference by identity, their persistent state can be moved around to reach large scale. Almost-infinite scalability is achieved by allowing for continuous repartitioning of aggregate data storage, as explained by Amazon.com's Pat [Helland] in his position paper, Life Beyond Distributed Transactions: an Apostate's Opinion. What we call aggregate he calls entity. But what he describes is still aggregate by any other name; a unit of composition that has transactional consistency. Some NoSql persistence mechanisms support the Amazon-inspired distributed storage. These provide much of what [Helland] refers to as the lower, scale-aware layer. When employing a distributed store, or even when using a SQL database with similar motivations, reference by identity plays an important role.
 </p>
 
-<p>因为聚合不使用到其他聚合的只接引用，而是通过标识引用，他们的持久状态可以随处移动来达到大并行扩展。通过允许持续的聚合数据重分配可以达到几乎没有限制的扩展能力，像亚马逊的Pat [Helland]在他的主页上解释的，超越分布式事务：变节者的主张。我们叫聚合他称为实体。但是他描述的无论什么名字仍然是聚合；一个拥有事务一致性的组合单元。一些NoSql持久化机制支持亚马逊提出的的分布式存储。它们提供了更多[Helland]引用的底层，可扩展的层。当使用一个分布式存储，或者甚至当使用SQL database达成相同的动机，通过标识引用扮演了重要的角色。</p>
+<p>因为聚合不使用到其他聚合的直接引用，而是通过标识引用，他们的持久状态可以随处移动来达到大并行扩展。通过允许持续的聚合数据重分配可以达到几乎没有限制的扩展能力，像亚马逊的Pat [Helland]在他的主页上解释的，超越分布式事务：变节者的主张。我们叫聚合他称为实体。但是他描述的无论什么名字仍然是聚合；一个拥有事务一致性的组合单元。一些NoSql持久化机制支持亚马逊提出的的分布式存储。它们提供了更多[Helland]引用的底层，可扩展的层。当使用一个分布式存储，或者甚至当使用SQL database达成相同的动机，通过标识引用扮演了重要的角色。</p>
 <p class="en">
 Distribution extends beyond storage. Since there are always multiple bounded contexts at play in a given core domain initiative, reference by identity allows distributed domain models to have associations from afar. When an event-driven approach is in use, message-based domain events containing aggregate identities are sent around the enterprise. Message subscribers in foreign bounded contexts use the identities to carry out operations in their own domain models. Reference by identity forms remote associations or partners. Distributed operations are managed by what [Helland] calls two-party activities; but in publish-subscribe [POSA1, GoF] terms it's multi-party (two or more). Transactions across distributed systems are not atomic. The various systems bring multiple aggregates into a consistent state eventually.
 </p>
@@ -438,7 +438,7 @@ Eric Evans and Paul Rayner did several detailed reviews of this essay. I also re
 [DDD] Eric Evans; Domain-Driven Design—Tackling Complexity in the Heart of Software. <br />
 [Dahan] Udi Dahan; Clarified CQRS; http://www.udidahan.com/2009/12/09/clarified-cqrs/ <br />
 [Fowler] Martin Fowler; CQRS; http://martinfowler.com/bliki/CQRS.html <br />
-[GoF] Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides; Design Patterns: Elements of Reusable Object- Oriented Software; see the Observer pattern. <br />
+[GoF] Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides; Design Patterns: Elements of Reusable Object-Oriented Software; see the Observer pattern. <br />
 [Helland] Pat Helland; Life beyond Distributed Transactions: an Apostate’s Opinion; http://www.ics.uci.edu/~cs223/papers/cidr07p15.pdf <br />
 [Message Bus] NServiceBus is a framework that supports this pattern; http://www.nservicebus.com/ <br />
 [POSA1] Frank Buschmann, Regine Meunier, Hans Rohnert, Peter Sommerlad; Pattern-Oriented Software Architecture Volume 1: A System of Patterns; see the Publisher-Subscriber pattern. <br />

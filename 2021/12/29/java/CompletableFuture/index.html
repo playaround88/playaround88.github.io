@@ -34,7 +34,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="http://playaround88.github.io/img/zfb.jpg">
 <meta property="article:published_time" content="2021-12-29T06:54:08.000Z">
-<meta property="article:modified_time" content="2021-12-29T09:58:57.550Z">
+<meta property="article:modified_time" content="2022-02-14T10:34:55.113Z">
 <meta property="article:author" content="wutb">
 <meta property="article:tag" content="java CompletableFuture">
 <meta name="twitter:card" content="summary">
@@ -229,20 +229,24 @@ var themeMenus = {};
 <p>站在上帝视角，我们知道B/C是可以并行处理的，但这种情况对编译器通常是“无能为力”的，<br>这时就需要开发人员来介入优化流程, 使用传统的Future优化代码如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = A();</span><br><span class="line">Future&lt;Integer&gt; bf = ForkJoinPool.commonPool().submit(() -&gt; B(a));</span><br><span class="line">Future&lt;Integer&gt; cf = ForkJoinPool.commonPool().submit(() -&gt; C(a));</span><br><span class="line"><span class="keyword">int</span> d = D(bf.get(), cf.get());</span><br></pre></td></tr></table></figure>
 
-<p>首先，手动创建线程池，将计算封装成任务提交，这带来了一定的模板代码(虽然这里使用了一个已有线程池)和“噪声”。<br>改进办法是把对应的模板代码都移到方法内部，即</p>
+<ul>
+<li><p>首先，手动创建线程池，将计算封装成任务提交，这带来了一定的模板代码(虽然这里使用了一个已有线程池)和“噪声”。<br>改进办法是把对应的模板代码都移到方法内部，即</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">B</span><span class="params">(<span class="keyword">int</span> i)</span></span>;</span><br><span class="line"><span class="comment">// 签名改为</span></span><br><span class="line"><span class="function">Future&lt;Integer&gt; <span class="title">B</span><span class="params">(<span class="keyword">int</span> i)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>其次，异步后异常处理一个重要的问题，异步异常通常难以排查和定位。<br>改进办法是给异步方法传递一个异常回调，即</p>
+</li>
+<li><p>其次，异步后异常处理一个重要的问题，异步异常通常难以排查和定位。<br>改进办法是给异步方法传递一个异常回调，即</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Future&lt;Integer&gt; <span class="title">B</span><span class="params">(<span class="keyword">int</span> i, ExceptionCallBack cb)</span></span>;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>当然传递多个参数，最好的情况当然是传递一个封装对象。<br>这样封装后，那么整个代码的维护将会更加复杂，已有系统改造也更加困难，而且异步代码有一定的“传染性”，造成更多的代码改造。</p>
 </blockquote>
+</li>
+</ul>
 <p>不考虑异常情况，演化的最简代码示例如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = A();</span><br><span class="line">Future&lt;Integer&gt; bf = B(a);</span><br><span class="line">Future&lt;Integer&gt; cf = C(a);</span><br><span class="line"><span class="keyword">int</span> d = D(bf.get(), cf.get());</span><br></pre></td></tr></table></figure>
-<p>那么，这是最优“表达”吗？  </p>
+<p>那么，这是最优“表达”吗？如果遇到更复杂的异步任务编排，那么对应的多线程和编排代码就会异常复杂。</p>
 <p>打破枷锁，试想我们是不是可以简单的用下面的代码来表达我们想要的计算“编排”？</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a.all(b,c).apply(d);</span><br></pre></td></tr></table></figure>
-<p>是不是非常优雅？对，这就是CompletableFuture的原始动机。<br>看看上面的演化过程，是不是和JDK 8的stream API引入的核心理念有异曲同工之妙！<br>即：把复杂的线程调度处理模板代码内置，以达到特定使用场景的最优化(声明式编程)。</p>
+<p>是不是非常优雅？这种方式被称为声明式编程。<br>CompletableFuture就是为越来越流行的异步服务编排、service-mesh等场景设计的。<br>使用CompletableFuture就可以以声明式的代码编排异步服务，同时屏蔽了线程、锁等并发概念。</p>
+<p>看看上面的演化过程，是不是和JDK 8的stream API引入的核心理念有异曲同工之妙！<br>即：把复杂的线程调度处理模板代码内置，以达到特定使用场景的最优化(声明式编程)。</p>
 <p>上面只是一个简单的计算编排的示例，当多个任务编排时，那么逻辑也会复杂多样。<br>CompletableFuture提供了完备的创建和编排逻辑，大大简化了利用多核处理器计算性能的代码复杂性。<br>下面咱们一起看一下CompletableFuture的Java docs API文档，一起领略一下。</p>
 <h1 id="CompletableFuture-API概述"><a href="#CompletableFuture-API概述" class="headerlink" title="CompletableFuture API概述"></a>CompletableFuture API概述</h1><p>CompletableFuture实现了两个接口CompletionStage<T>, Future<T>，下面是两个接口API说明：</p>
 <blockquote>
