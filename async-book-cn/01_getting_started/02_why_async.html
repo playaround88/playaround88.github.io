@@ -1,0 +1,422 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Why Async? - Asynchronous Programming in Rust</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../01_getting_started/01_chapter.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../01_getting_started/02_why_async.html" class="active"><strong aria-hidden="true">1.1.</strong> Why Async?</a></li><li class="chapter-item expanded "><a href="../01_getting_started/03_state_of_async_rust.html"><strong aria-hidden="true">1.2.</strong> The State of Asynchronous Rust</a></li><li class="chapter-item expanded "><a href="../01_getting_started/04_async_await_primer.html"><strong aria-hidden="true">1.3.</strong> async/.await Primer</a></li></ol></li><li class="chapter-item expanded "><a href="../02_execution/01_chapter.html"><strong aria-hidden="true">2.</strong> Under the Hood: Executing Futures and Tasks</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../02_execution/02_future.html"><strong aria-hidden="true">2.1.</strong> The Future Trait</a></li><li class="chapter-item expanded "><a href="../02_execution/03_wakeups.html"><strong aria-hidden="true">2.2.</strong> Task Wakeups with Waker</a></li><li class="chapter-item expanded "><a href="../02_execution/04_executor.html"><strong aria-hidden="true">2.3.</strong> Applied: Build an Executor</a></li><li class="chapter-item expanded "><a href="../02_execution/05_io.html"><strong aria-hidden="true">2.4.</strong> Executors and System IO</a></li></ol></li><li class="chapter-item expanded "><a href="../03_async_await/01_chapter.html"><strong aria-hidden="true">3.</strong> async/await</a></li><li class="chapter-item expanded "><a href="../04_pinning/01_chapter.html"><strong aria-hidden="true">4.</strong> Pinning</a></li><li class="chapter-item expanded "><a href="../05_streams/01_chapter.html"><strong aria-hidden="true">5.</strong> Streams</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../05_streams/02_iteration_and_concurrency.html"><strong aria-hidden="true">5.1.</strong> Iteration and Concurrency</a></li></ol></li><li class="chapter-item expanded "><a href="../06_multiple_futures/01_chapter.html"><strong aria-hidden="true">6.</strong> Executing Multiple Futures at a Time</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../06_multiple_futures/02_join.html"><strong aria-hidden="true">6.1.</strong> join!</a></li><li class="chapter-item expanded "><a href="../06_multiple_futures/03_select.html"><strong aria-hidden="true">6.2.</strong> select!</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.3.</strong> TODO: Spawning</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.4.</strong> TODO: Cancellation and Timeouts</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.5.</strong> TODO: FuturesUnordered</div></li></ol></li><li class="chapter-item expanded "><a href="../07_workarounds/01_chapter.html"><strong aria-hidden="true">7.</strong> Workarounds to Know and Love</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../07_workarounds/02_err_in_async_blocks.html"><strong aria-hidden="true">7.1.</strong> ? in async Blocks</a></li><li class="chapter-item expanded "><a href="../07_workarounds/03_send_approximation.html"><strong aria-hidden="true">7.2.</strong> Send Approximation</a></li><li class="chapter-item expanded "><a href="../07_workarounds/04_recursion.html"><strong aria-hidden="true">7.3.</strong> Recursion</a></li><li class="chapter-item expanded "><a href="../07_workarounds/05_async_in_traits.html"><strong aria-hidden="true">7.4.</strong> async in Traits</a></li></ol></li><li class="chapter-item expanded "><a href="../08_ecosystem/00_chapter.html"><strong aria-hidden="true">8.</strong> The Async Ecosystem</a></li><li class="chapter-item expanded "><a href="../09_example/00_intro.html"><strong aria-hidden="true">9.</strong> Final Project: HTTP Server</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../09_example/01_running_async_code.html"><strong aria-hidden="true">9.1.</strong> Running Asynchronous Code</a></li><li class="chapter-item expanded "><a href="../09_example/02_handling_connections_concurrently.html"><strong aria-hidden="true">9.2.</strong> Handling Connections Concurrently</a></li><li class="chapter-item expanded "><a href="../09_example/03_tests.html"><strong aria-hidden="true">9.3.</strong> Testing the Server</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> TODO: I/O</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">10.1.</strong> TODO: AsyncRead and AsyncWrite</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> TODO: Asynchronous Design Patterns: Solutions and Suggestions</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">11.1.</strong> TODO: Modeling Servers and the Request/Response Pattern</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.2.</strong> TODO: Managing Shared State</div></li></ol></li><li class="chapter-item expanded "><a href="../12_appendix/01_translations.html"><strong aria-hidden="true">12.</strong> Appendix: Translations of the Book</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Asynchronous Programming in Rust</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/rust-lang/async-book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="why-async"><a class="header" href="#why-async">Why Async?</a></h1>
+<p>We all love how Rust empowers us to write fast, safe software.
+But how does asynchronous programming fit into this vision?</p>
+<p class="cn">
+我们都喜欢 Rust 如何使我们能够编写快速、安全的软件。
+但是异步编程如何适应这个愿景呢？
+</p>
+<p>Asynchronous programming, or async for short, is a <em>concurrent programming model</em>
+supported by an increasing number of programming languages.
+It lets you run a large number of concurrent
+tasks on a small number of OS threads, while preserving much of the
+look and feel of ordinary synchronous programming, through the
+<code>async/await</code> syntax.</p>
+<p class="cn">
+异步编程，简称异步，是一种_并发编程模型_被越来越多的编程语言所支持。
+它可以让你运行大量并发少量操作系统线程上的任务，通过`async/await` 语法，同时保留大部分普通同步编程的观感。
+</p>
+<h2 id="async-vs-other-concurrency-modelsaync-对比其他并发模型"><a class="header" href="#async-vs-other-concurrency-modelsaync-对比其他并发模型">Async vs other concurrency models(Aync 对比其他并发模型)</a></h2>
+<p>Concurrent programming is less mature and &quot;standardized&quot; than
+regular, sequential programming. As a result, we express concurrency
+differently depending on which concurrent programming model
+the language is supporting.</p>
+<p class="cn">
+并发编程没有那么成熟和“标准化”
+定期，顺序编程。 结果，我们表示并发
+取决于哪个并发编程模型
+语言支持。
+</p>
+<p>A brief overview of the most popular concurrency models can help
+you understand how asynchronous programming fits within the broader
+field of concurrent programming:</p>
+<p class="cn">
+对最流行的并发模型的简要概述可以提供帮助
+您了解异步编程如何适应更广泛的
+并发编程领域：
+</p>
+<ul>
+<li><strong>OS threads</strong> don't require any changes to the programming model,
+which makes it very easy to express concurrency. However, synchronizing
+between threads can be difficult, and the performance overhead is large.
+Thread pools can mitigate some of these costs, but not enough to support
+massive IO-bound workloads.</li>
+<li><p class="cn"><b>系统线程</b>不需要对编程模型进行任何更改，
+这使得表达并发非常容易。 但是，同步
+线程之间可能很困难，并且性能开销很大。
+线程池可以减轻其中一些成本，但不足以支持
+大量 IO 密集型工作负载。</p>
+</li>
+<li><strong>Event-driven programming</strong>, in conjunction with <em>callbacks</em>, can be very
+performant, but tends to result in a verbose, &quot;non-linear&quot; control flow.
+Data flow and error propagation is often hard to follow.</li>
+<li><p class="cn"><b>事件驱动编程</b>与 _callbacks_ 一起使用，可以非常
+但往往会导致冗长的“非线性”控制流。
+数据流和错误传播通常很难跟踪</p>
+</li>
+<li><strong>Coroutines</strong>, like threads, don't require changes to the programming model,
+which makes them easy to use. Like async, they can also support a large
+number of tasks. However, they abstract away low-level details that
+are important for systems programming and custom runtime implementors.</li>
+<li><p class="cn"><b>协程</b>与线程一样，不需要更改编程模型，
+这使得它们易于使用。与async一样，它们也可以支持大型
+任务数。然而，他们抽象掉了一些低层次的细节
+对于系统编程和自定义运行时实现者来说非常重要。</p>
+</li>
+<li><strong>The actor model</strong> divides all concurrent computation into units called
+actors, which communicate through fallible message passing, much like
+in distributed systems. The actor model can be efficiently implemented, but it leaves
+many practical issues unanswered, such as flow control and retry logic.</li>
+<li><p class="cn"><b>角色模型</b>将所有并发计算划分为称为角色的单元，
+就像在分布式系统中，通过易出错的信息传递进行交流。参与者模型可以有效地实现，
+但是许多实际问题尚未解决，例如流控制和重试逻辑。</p>
+</li>
+</ul>
+<p>In summary, asynchronous programming allows highly performant implementations
+that are suitable for low-level languages like Rust, while providing
+most of the ergonomic benefits of threads and coroutines.</p>
+<p class="cn">
+总之，异步编程允许高性能的实现
+适用于Rust之类的低级语言，同时提供
+线程和协同程序的大部分人机工程学优点。
+</p>
+<h2 id="async-in-rust-vs-other-languagesrust中async与其他语言的对比"><a class="header" href="#async-in-rust-vs-other-languagesrust中async与其他语言的对比">Async in Rust vs other languages(Rust中Async与其他语言的对比)</a></h2>
+<p>Although asynchronous programming is supported in many languages, some
+details vary across implementations. Rust's implementation of async
+differs from most languages in a few ways:</p>
+<p class="cn">
+虽然许多语言都支持异步编程，但有些各个实现的详细信息各不相同。
+Rust的异步实现与大多数语言在以下几个方面不同：
+</p>
+<ul>
+<li><strong>Futures are inert</strong> in Rust and make progress only when polled. Dropping a
+future stops it from making further progress.</li>
+<li><p class="cn"><b>Futures是惰性的</b>只有在接受调查后才能取得进展。放弃未来会阻止它取得进一步的进步。</p>
+</li>
+<li><strong>Async is zero-cost</strong> in Rust, which means that you only pay for what you use.
+Specifically, you can use async without heap allocations and dynamic dispatch,
+which is great for performance!
+This also lets you use async in constrained environments, such as embedded systems.</li>
+<li><p class="cn"><b>Async是零开销的</b>在Rust中，这意味着你只需为你使用的东西付费。
+具体来说，您可以使用异步，而无需堆分配和动态调度，这对性能非常好！
+这还允许您在受限环境（如嵌入式系统）中使用异步。</p>
+</li>
+<li><strong>No built-in runtime</strong> is provided by Rust. Instead, runtimes are provided by
+community maintained crates.</li>
+<li><p class="cn">rust语言本身<b>不提供内置的运行时</b>，相反，运行时由社区维护的crates。</p>
+</li>
+<li><strong>Both single- and multithreaded</strong> runtimes are available in Rust, which have
+different strengths and weaknesses.</li>
+<li><p class="cn">Rust<b>可同时支持单线程和多线程</b>的运行时，它们有不同的优势和劣势</p>
+</li>
+</ul>
+<h2 id="async-vs-threads-in-rustrust中的async-对比-线程"><a class="header" href="#async-vs-threads-in-rustrust中的async-对比-线程">Async vs threads in Rust(Rust中的Async 对比 线程)</a></h2>
+<p>The primary alternative to async in Rust is using OS threads, either
+directly through <a href="https://doc.rust-lang.org/std/thread/"><code>std::thread</code></a>
+or indirectly through a thread pool.</p>
+<p class="cn">
+Rust中异步的主要替代方法是使用OS线程，无论是使用<a href="https://doc.rust-lang.org/std/thread/">`std::thread`</a>
+或者通过一个线程池。
+</p>
+<p>Migrating from threads to async or vice versa
+typically requires major refactoring work, both in terms of implementation and
+(if you are building a library) any exposed public interfaces. As such,
+picking the model that suits your needs early can save a lot of development time.</p>
+<p class="cn">
+从线程迁移到异步或从异步迁移到线程通常需要进行大量重构工作，无论是在实现方面还是在任何公开的公共接口（如果您正在构建库）方面。
+因此，尽早选择适合您需要的模型可以节省大量开发时间。
+</p>
+<p><strong>OS threads</strong> are suitable for a small number of tasks, since threads come with
+CPU and memory overhead. Spawning and switching between threads
+is quite expensive as even idle threads consume system resources.
+A thread pool library can help mitigate some of these costs, but not all.
+However, threads let you reuse existing synchronous code without significant
+code changes—no particular programming model is required.
+In some operating systems, you can also change the priority of a thread,
+which is useful for drivers and other latency sensitive applications.</p>
+<p class="cn">
+<b>系统线程</b>适用于少量任务，因为线程会带来CPU和内存开销。
+生成线程和在线程之间切换非常昂贵，因为即使是空闲线程也会消耗系统资源。
+线程池库可以帮助降低其中一些成本，但不是全部。
+然而，线程允许您重用现有的同步代码，而无需进行重大的代码更改—不需要特定的编程模型。
+在某些操作系统中，还可以更改线程的优先级，
+这对于驱动程序和其他对延迟敏感的应用程序非常有用。
+</p>
+<p><strong>Async</strong> provides significantly reduced CPU and memory
+overhead, especially for workloads with a
+large amount of IO-bound tasks, such as servers and databases.
+All else equal, you can have orders of magnitude more tasks than OS threads,
+because an async runtime uses a small amount of (expensive) threads to handle
+a large amount of (cheap) tasks.
+However, async Rust results in larger binary blobs due to the state
+machines generated from async functions and since each executable
+bundles an async runtime.</p>
+<p class="cn">
+<b>Async</b>可以显著降低了CPU和内存开销，特别是对于具有大量IO绑定任务的工作负载，如服务器和数据库，
+因为异步运行时使用少量（昂贵的）线程来处理大量（廉价的）任务。
+然而，Rust的异步会导致更大的二进制blob，主要由于为异步函数生成的状态机以及每个可执行文件需捆绑一个异步运行时。
+</p>
+<p>On a last note, asynchronous programming is not <em>better</em> than threads,
+but different.
+If you don't need async for performance reasons, threads can often be
+the simpler alternative.</p>
+<p class="cn">
+最后，异步编程并不比线程更好，
+但不同。
+如果出于性能原因不需要异步，线程通常是更简单的选择。
+</p>
+<h3 id="example-concurrent-downloading例子并发下载"><a class="header" href="#example-concurrent-downloading例子并发下载">Example: Concurrent downloading(例子：并发下载)</a></h3>
+<p>In this example our goal is to download two web pages concurrently.
+In a typical threaded application we need to spawn threads
+to achieve concurrency:</p>
+<p class="cn">
+在本例中，我们的目标是同时下载两个网页。
+在典型的线程化应用程序中，我们需要生成线程以实现并发：
+</p>
+<pre><code class="language-rust ignore">fn get_two_sites() {
+    // Spawn two threads to do work.
+    let thread_one = thread::spawn(|| download(&quot;https://www.foo.com&quot;));
+    let thread_two = thread::spawn(|| download(&quot;https://www.bar.com&quot;));
+
+    // Wait for both threads to complete.
+    thread_one.join().expect(&quot;thread one panicked&quot;);
+    thread_two.join().expect(&quot;thread two panicked&quot;);
+}
+</code></pre>
+<p>However, downloading a web page is a small task; creating a thread
+for such a small amount of work is quite wasteful. For a larger application, it
+can easily become a bottleneck. In async Rust, we can run these tasks
+concurrently without extra threads:</p>
+<p class="cn">
+然而，下载网页是一项小任务；为如此少量的工作创建一个线程是非常浪费的。
+对于较大的应用程序，它很容易成为瓶颈。在Rust async中，我们可以在没有额外线程的情况下并发运行这些任务：
+</p>
+<pre><code class="language-rust ignore">async fn get_two_sites_async() {
+    // Create two different &quot;futures&quot; which, when run to completion,
+    // will asynchronously download the webpages.
+    let future_one = download_async(&quot;https://www.foo.com&quot;);
+    let future_two = download_async(&quot;https://www.bar.com&quot;);
+
+    // Run both futures to completion at the same time.
+    join!(future_one, future_two);
+}
+</code></pre>
+<p>Here, no extra threads are created. Additionally, all function calls are statically
+dispatched, and there are no heap allocations!
+However, we need to write the code to be asynchronous in the first place,
+which this book will help you achieve.</p>
+<p class="cn">
+在这里，不会创建额外的线程。此外，所有函数调用都是静态调度的，并且没有堆分配！
+然而，我们首先需要将代码编写为异步的，这本书将帮助您实现。
+</p>
+<h2 id="custom-concurrency-models-in-rust在rust中定制并发模型"><a class="header" href="#custom-concurrency-models-in-rust在rust中定制并发模型">Custom concurrency models in Rust(在Rust中定制并发模型)</a></h2>
+<p>On a last note, Rust doesn't force you to choose between threads and async.
+You can use both models within the same application, which can be
+useful when you have mixed threaded and async dependencies.
+In fact, you can even use a different concurrency model altogether,
+such as event-driven programming, as long as you find a library that
+implements it.</p>
+<p class="cn">
+最后，Rust不会强迫您在线程和异步之间进行选择。
+您可以在同一个应用程序中使用这两个模型，当您混合了线程依赖和异步依赖时，这会很有用。
+事实上，您甚至可以使用不同的并发模型，
+如事件驱动编程，只要找到实现它的库。
+</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../01_getting_started/01_chapter.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../01_getting_started/03_state_of_async_rust.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../01_getting_started/01_chapter.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../01_getting_started/03_state_of_async_rust.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../assets/translate.js"></script>
+
+
+    </body>
+</html>
